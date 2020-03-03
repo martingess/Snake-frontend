@@ -1,17 +1,31 @@
 import React from "react";
-import {Form, Icon, Input, Button, Checkbox} from 'antd';
+import {Form, Icon, Input, Button, Checkbox, Spin} from 'antd';
+import {connect} from 'react-redux'
+import {login} from "../../../../modules/redLogin";
 
 class NormalLoginForm extends React.Component {
+  state = {loginInput: '', passwordInput: ''};
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
+        const {tryLogin} = this.props;
+        const {loginInput, passwordInput} = this.state;
+        tryLogin(loginInput, passwordInput)
       }
     });
   };
 
+  handleInput = (stateName) => (e) => {
+    this.setState({[stateName]: e.target.value})
+  };
+
   render() {
+    const {state} = this.props
+    if (state.login.status === 'loading') {
+      return <Spin size="large"/>
+    }
     const {getFieldDecorator} = this.props.form;
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
@@ -19,9 +33,9 @@ class NormalLoginForm extends React.Component {
           {getFieldDecorator('username', {
             rules: [{required: true, message: 'Please input your username!'}],
           })(
-            <Input
-              prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
-              placeholder="Username"
+            <Input onChange={this.handleInput('loginInput')}
+                   prefix={<Icon type="user" style={{color: 'rgba(0,0,0,.25)'}}/>}
+                   placeholder="Username"
             />,
           )}
         </Form.Item>
@@ -30,6 +44,7 @@ class NormalLoginForm extends React.Component {
             rules: [{required: true, message: 'Please input your Password!'}],
           })(
             <Input
+              onChange={this.handleInput('passwordInput')}
               prefix={<Icon type="lock" style={{color: 'rgba(0,0,0,.25)'}}/>}
               type="password"
               placeholder="Password"
@@ -56,4 +71,5 @@ class NormalLoginForm extends React.Component {
 
 const WrappedNormalLoginForm = Form.create({name: 'normal_login'})(NormalLoginForm);
 
-export default WrappedNormalLoginForm;
+// WrappedNormalLoginForm;
+export default connect(state => ({state}), dispatch => ({tryLogin: login(dispatch)}))(WrappedNormalLoginForm)

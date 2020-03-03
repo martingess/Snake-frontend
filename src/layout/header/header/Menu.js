@@ -1,13 +1,19 @@
 import React from "react";
 import {Menu as MenuAnt} from 'antd'
+import {Link} from "react-router-dom";
+
 export default function Menu() {
   return (
     <MenuAnt mode={'horizontal'}>
       <MenuAnt.Item>
-        Main page
+        <Link to={'/'}>
+          Results
+        </Link>
       </MenuAnt.Item>
       <MenuAnt.Item>
-        About us
+        <Link to={'/about'}>
+          About us
+        </Link>
       </MenuAnt.Item>
     </MenuAnt>
   )
