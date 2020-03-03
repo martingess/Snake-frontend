@@ -15,7 +15,7 @@ export default function reducer(state = {data: null, status: null}, action) {
 
 export const logout = () => (
   {type: 'redLogin.logout'}
-)
+);
 
 export function login(dispatch) {
   const fetchStart = () => ({type: 'redLogin.fetching', status: 'loading'});

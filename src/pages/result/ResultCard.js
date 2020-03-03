@@ -2,16 +2,17 @@ import React from "react";
 import {Card, Icon} from "antd";
 const {Meta} = Card;
 
-export default function ResultCard({data}) {
-  const {name, date, doctor, note} = data;
+export default function ResultCard({data, handleEdit, handleDelete}) {
+  const {id, name, date, doctor, note} = data;
+  console.log('я рендерюсь');
   return (
-    <Card style={{width: 300}}
+    <Card hoverable style={{width: 300}}
           cover={
             <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"/>
           }
           actions={[
-            <Icon type="edit" key="edit"/>,
-            <Icon type="delete" key="delete"/>,
+            <Icon onClick={handleEdit(id)} type="edit" key="edit"/>,
+            <Icon onClick={handleDelete(id)} type="delete" key="delete"/>,
           ]}
     >
       <Meta title={name}

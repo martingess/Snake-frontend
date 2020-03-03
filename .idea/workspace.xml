@@ -2,23 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="508731f5-bc0c-4fef-a383-448816f3c12e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/layout/header/header/user/UserCard.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/redLogin.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/modules/redResults.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/AddResult.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/result/ResultCardEditable.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/store.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layout/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layout/header/Main.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layout/header/header/Menu.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/header/header/Menu.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layout/header/header/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/header/header/User.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layout/header/header/user/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/header/header/user/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/redLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/redLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/modules/redResults.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/modules/redResults.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/Result.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Result.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/result/ResultCard.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/result/ResultCard.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/result/ResultCardEditable.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/result/ResultCardEditable.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/store.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/store.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -90,7 +80,8 @@
       <updated>1582639662826</updated>
       <workItem from="1582639665325" duration="317000" />
       <workItem from="1582640128253" duration="33233000" />
-      <workItem from="1583167149950" duration="10195000" />
+      <workItem from="1583167149950" duration="10554000" />
+      <workItem from="1583231053877" duration="4541000" />
     </task>
     <servers />
   </component>

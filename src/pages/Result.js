@@ -1,23 +1,38 @@
-import React from "react";
+import React, {useCallback, useMemo} from "react";
 import {Row, Card, Icon, Col,} from "antd";
 import ResultCard from "./result/ResultCard";
 import ResultCardEditable from "./result/ResultCardEditable";
 import {connect} from "react-redux";
+import {deleteResult, setIsEditing} from "../modules/redResults";
 
 
-function Results({resultsData, nowEditing, dispatch}) {
-  //TODO: узнать насколько это оптимально, сколько раз рендерится это несчастье и тянет ли ререндер других элементов
+function Results({resultsData, isEditing, dispatch}) {
+  const handleEdit = (id) => () => {
+    if (id===isEditing) return dispatch(setIsEditing({}));
+    dispatch(setIsEditing(id));
+  };
+  const handleDelete = (id) => () => {
+    dispatch(deleteResult(id))
+  }
   return (
     <Row type="flex" gutter={[16, 32]}>
       {resultsData.map(dataItem => {
-        if(nowEditing === dataItem.id){
+        if(isEditing === dataItem.id){
           return <Col span={8}>
-            <ResultCardEditable nowEditing dispatch={dispatch} key={dataItem.id} data={dataItem}/>
+            <ResultCardEditable handleEdit={handleEdit}
+                                isEditing={isEditing}
+                                dispatch={dispatch}
+                                key={dataItem.id}
+                                data={dataItem}/>
           </Col>
         }
         return (
           <Col span={8}>
-            <ResultCardEditable key={dataItem.id} dispatch={dispatch} data={dataItem}/>
+            <ResultCard handleEdit={handleEdit}
+                        handleDelete={handleDelete}
+                        key={dataItem.id}
+                        dispatch={dispatch}
+                        data={dataItem}/>
           </Col>
         )
       })}
@@ -25,5 +40,5 @@ function Results({resultsData, nowEditing, dispatch}) {
   )
 }
 
-export default connect(state=>({nowEditing: state.results.nowEditing, resultsData: state.results.data}),
+export default connect(state=>({isEditing: state.results.isEditing, resultsData: state.results.data}),
   (dispatch)=>({dispatch}))(Results)
