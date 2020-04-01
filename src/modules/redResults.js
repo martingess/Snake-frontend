@@ -16,9 +16,7 @@ export default function reducer(state = {data: null, isEditing: null}, action) {
           return state;
         }
       }
-      return update(state, {data: {$splice: [[toDeleteArrayIndex, 1]]}})
-
-      return {...state,}
+      return update(state, {data: {$splice: [[toDeleteArrayIndex, 1]]}});
     default:
       return state;
   }

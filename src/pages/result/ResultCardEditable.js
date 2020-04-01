@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import {Card, Icon, Input, DatePicker, Form} from "antd";
-import {setNowEditing} from "../../modules/redResults";
+import {Card, Icon, Input, DatePicker} from "antd";
 import moment from "moment";
 
 const {TextArea} = Input;

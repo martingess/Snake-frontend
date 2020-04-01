@@ -1,6 +1,6 @@
 import React from "react";
 import {Card, Icon, Avatar} from 'antd';
-import {logout} from "../../../../modules/redLogin";
+import {logout} from "../../../modules/redLogin";
 
 const {Meta} = Card;
 

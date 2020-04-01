@@ -1,8 +1,8 @@
 import React from "react";
-import {Layout, Row, Col, Input, Button, Icon} from "antd";
-import Menu from "./header/header/Menu";
-import Search from "./header/header/Search";
-import User from "./header/header/User";
+import {Layout, Row, Col, Button} from "antd";
+import Menu from "./header/Menu";
+import Search from "./header/Search";
+import User from "./header/User";
 import {Link} from "react-router-dom";
 
 const {Header: AntHeader} = Layout;

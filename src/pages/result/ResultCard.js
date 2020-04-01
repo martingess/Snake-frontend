@@ -4,7 +4,6 @@ const {Meta} = Card;
 
 export default function ResultCard({data, handleEdit, handleDelete}) {
   const {id, name, date, doctor, note} = data;
-  console.log('я рендерюсь');
   return (
     <Card hoverable style={{width: 300}}
           cover={

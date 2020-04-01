@@ -1,7 +1,7 @@
 import React from "react";
 import {Form, Icon, Input, Button, Checkbox, Spin} from 'antd';
 import {connect} from 'react-redux'
-import {login} from "../../../../modules/redLogin";
+import {login} from "../../../modules/redLogin";
 
 class NormalLoginForm extends React.Component {
   state = {loginInput: '', passwordInput: ''};
@@ -56,13 +56,13 @@ class NormalLoginForm extends React.Component {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="">
+          <a className="login-form-forgot" href="https://google.ru">
             Forgot password
           </a>
           <Button type="primary" htmlType="submit" style={{width: '100%'}}>
             Log in
           </Button>
-          Or <a href="">register now!</a>
+          Or <a href="https://google.ru">register now!</a>
         </Form.Item>
       </Form>
     );
