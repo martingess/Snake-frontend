@@ -67,9 +67,13 @@ export function login(dispatch) {
     const user = await response.json();
     localStorage.setItem("authToken", user.data.login)
     if (user && user.data && user.data.login) {
+      try{
       const res = jwt(user.data.login);
       return dispatch(fetchDone(res))
+    } catch (err) {
+      localStorage.removeItem('authToken')
+      return dispatch(dispatch(fetchError()))
     }
-    dispatch(dispatch(fetchError()))
+    }
   }
 }
