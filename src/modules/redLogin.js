@@ -1,30 +1,49 @@
 import jwt from 'jwt-decode'
 
-export default function reducer(state = {data: null, status: null}, action) {
+export default function reducer(state = {
+  data: null,
+  status: null
+}, action) {
   switch (action.type) {
-    case('redLogin.login'):
-      return {...state, data: action.payload, status: action.status};
-    case('redLogin.logout'):
-      return {data: null, status: null};
-    case('redLogin.fetching'):
-      return {...state, status: action.status};
+    case ('redLogin.login'):
+      return {
+        ...state, data: action.payload, status: action.status
+      };
+    case ('redLogin.logout'):
+      return {
+        data: null, status: null
+      };
+    case ('redLogin.fetching'):
+      return {
+        ...state, status: action.status
+      };
     default:
       return state;
   }
 }
 
-export const logout = () => (
-  {type: 'redLogin.logout'}
-);
+export const logout = () => ({
+  type: 'redLogin.logout'
+});
 
 export function login(dispatch) {
-  const fetchStart = () => ({type: 'redLogin.fetching', status: 'loading'});
-  const fetchDone = (data) => ({type: 'redLogin.login', status: 'done', payload: data});
-  const fetchError = () => ({type: 'redLogin.fetching', status: 'error'});
+  const fetchStart = () => ({
+    type: 'redLogin.fetching',
+    status: 'loading'
+  });
+  const fetchDone = (data) => ({
+    type: 'redLogin.login',
+    status: 'done',
+    payload: data
+  });
+  const fetchError = () => ({
+    type: 'redLogin.fetching',
+    status: 'error'
+  });
 
-  return (login, password) => {
+  return async (login, password) => {
     dispatch(fetchStart());
-    fetch('http://shop-roles.asmer.fs.a-level.com.ua/graphql', {
+    const response = await fetch('http://localhost:3022/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -32,20 +51,19 @@ export function login(dispatch) {
       },
       body: JSON.stringify({
         query: `query lg{
-          login(login: "${login}", password: "${password}")
+          login(username: "${login}", password: "${password}")
         }`,
         variable: {},
       })
-    }).then(r => r.json())
-      .then(r => {
-          console.log('результаты феча', r, !!r.data.login);
-          if (r && r.data && r.data.login) {
-            const res = jwt(r.data.login);
-            return dispatch(fetchDone(res))
-          }
-        }
-      )
-      .catch(e =>
-        dispatch(dispatch(fetchError())))
+    });
+    const user = await response.json()
+    console.log('результаты феча', user);
+    if (user && user.data && user.data.login) {
+      const res = jwt(user.data.login);
+      console.log('результаты jwt', res);
+
+      return dispatch(fetchDone(res))
+    }
+    dispatch(dispatch(fetchError()))
   }
 }

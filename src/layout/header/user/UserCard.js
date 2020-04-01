@@ -7,7 +7,8 @@ const {Meta} = Card;
 export default class UserCard extends React.Component {
 
   render() {
-    const {name: userName, dispatch} = this.props
+    console.log(this.props)
+    const {user, dispatch} = this.props
     return (
       <div>
         <Card
@@ -21,7 +22,7 @@ export default class UserCard extends React.Component {
             avatar={
               <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>
             }
-            title={userName}
+            title={user.login}
             description="You are now logged in"
           />
         </Card>
