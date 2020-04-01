@@ -1,12 +1,15 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Row, Col} from "antd";
 import ResultCard from "./result/ResultCard";
 import ResultCardEditable from "./result/ResultCardEditable";
 import {connect} from "react-redux";
-import {deleteResult, setIsEditing} from "../modules/redResults";
+import {deleteResult, setIsEditing, setResultsData} from "../modules/redResults";
 
-
-function Results({resultsData, isEditing, dispatch}) {
+function Results({isLogin, resultsData, isEditing, dispatch}) {
+  console.log(resultsData)
+  useEffect(()=>{
+    dispatch(setResultsData(dispatch))
+  }, [isLogin])
   const handleEdit = (id) => () => {
     if (id === isEditing) return dispatch(setIsEditing({}));
     dispatch(setIsEditing(id));
@@ -16,7 +19,7 @@ function Results({resultsData, isEditing, dispatch}) {
   };
   return (
     <Row type="flex" gutter={[16, 32]}>
-      {resultsData.map(dataItem => {
+      {resultsData && resultsData.map(dataItem => {
         if (isEditing === dataItem.id) {
           return <Col key={dataItem.id}
                       span={8}>
@@ -39,5 +42,5 @@ function Results({resultsData, isEditing, dispatch}) {
   )
 }
 
-export default connect(state => ({isEditing: state.results.isEditing, resultsData: state.results.data}),
+export default connect(state => ({isLogin: state.login.status, isEditing: state.results.isEditing, resultsData: state.results.data}),
   (dispatch) => ({dispatch}))(Results)

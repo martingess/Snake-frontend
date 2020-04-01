@@ -1,9 +1,9 @@
 import update from 'immutability-helper';
-
+import jwt from 'jwt-decode';
 export default function reducer(state = {data: null, isEditing: null}, action) {
   switch (action.type) {
     case('redResults.setData'):
-      return {...state, data: action.payload};
+      return {...state, data: action.payload, status: action.status};
     case('redResults.setIsEditing'):
       return {...state, isEditing: action.payload};
     case('redResults.deleteResult'):
@@ -22,7 +22,54 @@ export default function reducer(state = {data: null, isEditing: null}, action) {
   }
 }
 
-export const setResultsData = (payload) => ({type: 'redResults.setData', payload});
+export const setResultsData = (dispatch) => {
+  const fetchStart = () => ({
+    type: 'redResults.setData',
+    status: 'loading'
+  });
+  const fetchDone = (data) => ({
+    type: 'redResults.setData',
+    status: 'done',
+    payload: data
+  });
+  const fetchError = () => ({
+    type: 'redResults.setData',
+    status: 'error'
+  });
+
+  return async () => {
+    dispatch(fetchStart());
+    const response = await fetch('http://localhost:3022/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': "Bearer " + localStorage.authToken
+      },
+      body: JSON.stringify({
+        query: `query FindUserResults{
+          findUserResults(username:"My"){
+            name,
+            analyzeType,
+            id,
+            date,
+            imgsPaths,
+            doctorName,
+            note
+          }
+        }`,
+        variable: {},
+      })
+    });
+    const results = await response.json()
+    console.log('результаты феча', results);
+    if (results && results.data && results.data) {
+      console.log('результаты jwt', results);
+      return dispatch(fetchDone(results.data.findUserResults))
+    }
+    dispatch(dispatch(fetchError()))
+  }
+}
 export const setIsEditing = (payload) => ({type: 'redResults.setIsEditing', payload});
 
 //TODO: добавить удаление результата на сервере

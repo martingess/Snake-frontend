@@ -8,9 +8,12 @@ import {BrowserRouter as Router, Route} from 'react-router-dom'
 import AddResult from "./pages/AddResult";
 import store from "./store";
 import {Provider} from "react-redux";
-
+import {softLogin} from './modules/redLogin'
 
 function App() {
+  if(localStorage.getItem("authToken")){
+    store.dispatch(softLogin());
+  }
   return (
     <div className="App">
       <Provider store={store}>

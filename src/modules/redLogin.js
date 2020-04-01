@@ -11,7 +11,7 @@ export default function reducer(state = {
       };
     case ('redLogin.logout'):
       return {
-        data: null, status: null
+        data: null, status: "logout"
       };
     case ('redLogin.fetching'):
       return {
@@ -22,9 +22,17 @@ export default function reducer(state = {
   }
 }
 
-export const logout = () => ({
+export const logout = () => {
+localStorage.removeItem('authToken', '')
+return {
   type: 'redLogin.logout'
-});
+};}
+
+export const softLogin = () => ({
+  type: 'redLogin.login',
+  payload: jwt(localStorage.getItem("authToken")),
+  status: 'done'
+})
 
 export function login(dispatch) {
   const fetchStart = () => ({
@@ -56,12 +64,10 @@ export function login(dispatch) {
         variable: {},
       })
     });
-    const user = await response.json()
-    console.log('результаты феча', user);
+    const user = await response.json();
+    localStorage.setItem("authToken", user.data.login)
     if (user && user.data && user.data.login) {
       const res = jwt(user.data.login);
-      console.log('результаты jwt', res);
-
       return dispatch(fetchDone(res))
     }
     dispatch(dispatch(fetchError()))
