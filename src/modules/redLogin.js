@@ -23,10 +23,11 @@ export default function reducer(state = {
 }
 
 export const logout = () => {
-localStorage.removeItem('authToken', '')
-return {
-  type: 'redLogin.logout'
-};}
+  localStorage.removeItem('authToken', '')
+  return {
+    type: 'redLogin.logout'
+  };
+}
 
 export const softLogin = () => ({
   type: 'redLogin.login',
@@ -35,6 +36,7 @@ export const softLogin = () => ({
 })
 
 export function login(dispatch) {
+  console.log('Работает')
   const fetchStart = () => ({
     type: 'redLogin.fetching',
     status: 'loading'
@@ -49,7 +51,7 @@ export function login(dispatch) {
     status: 'error'
   });
 
-  return async (login, password) => {
+  return async (login, password, remember) => {
     dispatch(fetchStart());
     const response = await fetch('http://localhost:3022/graphql', {
       method: 'POST',
@@ -65,15 +67,20 @@ export function login(dispatch) {
       })
     });
     const user = await response.json();
-    localStorage.setItem("authToken", user.data.login)
-    if (user && user.data && user.data.login) {
-      try{
-      const res = jwt(user.data.login);
-      return dispatch(fetchDone(res))
-    } catch (err) {
-      localStorage.removeItem('authToken')
-      return dispatch(dispatch(fetchError()))
+
+    //Remember user
+    if (remember) {
+      localStorage.setItem("authToken", user.data.login)
     }
+
+    if (user && user.data && user.data.login) {
+      try {
+        const res = jwt(user.data.login);
+        return dispatch(fetchDone(res))
+      } catch (err) {
+        localStorage.removeItem('authToken')
+        return dispatch(dispatch(fetchError()))
+      }
     }
   }
 }

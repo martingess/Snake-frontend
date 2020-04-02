@@ -6,11 +6,6 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
-const originalFetch = fetch;
-fetch = (url, params={headers:{}}) => { 
-    params.headers.Authorization = "Bearer " + localStorage.authToken
-    return originalFetch(url, params)
-}
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA

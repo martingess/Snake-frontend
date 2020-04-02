@@ -3,7 +3,7 @@ import {Card, Icon} from "antd";
 const {Meta} = Card;
 
 export default function ResultCard({data, handleEdit, handleDelete}) {
-  const {id, name, date, doctor, note} = data;
+  const {id, name, date, doctorName, note} = data;
   return (
     <Card hoverable style={{width: 300}}
           cover={
@@ -17,9 +17,9 @@ export default function ResultCard({data, handleEdit, handleDelete}) {
       <Meta title={name}
             description={
               <>
-                <div>{date}</div>
-                <div>{doctor}</div>
-                <div>{note}</div>
+                <div>{Date(date)}</div>
+                <div>Doctor: {doctorName}</div>
+                {note && <div>Notes: {note}</div>}
               </>
             }
       />
