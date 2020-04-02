@@ -2,6 +2,7 @@ import React from "react";
 import { Form, Icon, Input, Button, Checkbox, Spin } from 'antd';
 import { connect } from 'react-redux'
 import { login } from "../../../modules/redLogin";
+import { Link } from "react-router-dom";
 
 class NormalLoginForm extends React.Component {
   handleSubmit = e => {
@@ -54,7 +55,7 @@ class NormalLoginForm extends React.Component {
           <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
             Log in
           </Button>
-          Or <a href="https://google.ru">register now!</a>
+          Or <Link to="/register">register now!</Link>
         </Form.Item>
       </Form>
     );

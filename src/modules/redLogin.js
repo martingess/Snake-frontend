@@ -63,7 +63,7 @@ export function login(dispatch) {
         query: `query lg{
           login(username: "${login}", password: "${password}")
         }`,
-        variable: {},
+        variable: {}
       })
     });
     const user = await response.json();
@@ -76,7 +76,7 @@ export function login(dispatch) {
     if (user && user.data && user.data.login) {
       try {
         const res = jwt(user.data.login);
-        return dispatch(fetchDone(res))
+        dispatch(fetchDone(res))
       } catch (err) {
         localStorage.removeItem('authToken')
         return dispatch(dispatch(fetchError()))
