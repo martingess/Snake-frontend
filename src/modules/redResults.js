@@ -72,3 +72,7 @@ export const deleteResult = (payload) => {
     payload
   }
 };
+
+export const saveEditedResult = (payload) => {
+  
+}

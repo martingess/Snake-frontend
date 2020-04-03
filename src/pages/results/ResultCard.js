@@ -1,6 +1,7 @@
 import React from "react";
 import {Card, Icon} from "antd";
 import {useHistory} from 'react-router-dom'
+import moment from "moment";
 const {Meta} = Card;
 
 export default function ResultCard({data, handleEdit, handleDelete}) {
@@ -20,7 +21,7 @@ return (
     <Meta title={name}
           description={
             <>
-              <div>{Date(date)}</div>
+              <div>{moment(date).format('MMMM Do YYYY, h:mm:ss a')}</div>
               <div>Doctor: {doctorName}</div>
               {note && <div>Notes: {note}</div>}
             </>

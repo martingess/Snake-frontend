@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Row, Form, Input, Col, DatePicker, Button, Upload, Icon, Spin } from "antd";
 import api from "../helpers/api";
+import notification from "../helpers/notification";
 
 class AddResult extends React.Component {
   state = {
@@ -12,8 +13,14 @@ class AddResult extends React.Component {
       (async ()=>{
       const imgPaths = this.state.imgPaths
       this.setState({fetching: true})
-        await api.createResult(values, imgPaths)
+      try{
+        const result = await api.createResult(values, imgPaths)
+        //TODO: добавить валидацию на случай ошибки
+        notification.resultAddedSuccessfuly()
         this.setState({fetching: false})
+      } catch (e){
+        notification.resultAddingFailed();
+      }
       })()
     })
   }
@@ -50,7 +57,9 @@ class AddResult extends React.Component {
               )
             }
             </Form.Item>
-              <Upload action={'http://localhost:3022/api/v1/result/img'}
+              <Upload 
+              headers={{'Authorization': "Bearer " + localStorage.authToken}}
+              action={'http://localhost:3022/api/v1/result/img'}
               onChange={(e)=>{
                 if(e.file.status === 'done'){
                   const imgPaths = e.file.response.data[0].substr('public'.length)

@@ -56,8 +56,11 @@ const api = {
             })
         })
     },
-
     createResult: async (values, imgPaths) => {
+        console.log(values)
+
+        const imgsPathsJson = JSON.stringify(imgPaths)
+
         const response = await fetch('http://localhost:3022/graphql', {
             method: 'POST',
             headers: {
@@ -65,28 +68,27 @@ const api = {
                 'Authorization': "Bearer " + localStorage.authToken
             },
             body: JSON.stringify({
-                query: `mutation CreateResult{
-                createResult(
-                  name:"${values.name}",
-                  imgsPaths:"${imgPaths}",
-                  doctorName:"${values.doctorName}",
-                  analyzeType:"${values.analyzeType}",
-                  date: "${values.date}",
-                  note:"${values.note}"
-                ) {
-                  name
-                  date
-                  doctorName
-                  analyzeType
-                  note
-                }
-              }`,
+                query: `mutation CreateResult {
+                            createResult(result: {name: "${values.name}", 
+                            date: "${values.date}", 
+                            doctorName: "${values.doctorName}", 
+                            analyzeType: "${values.analyzeType}", 
+                            note: "${values.note}", 
+                            imgsPaths: ${imgsPathsJson} }) {
+                                name
+                                date
+                                doctorName
+                                analyzeType
+                                note
+                            }
+                        }`,
                 variable: {},
-            })
+})
         })
         return await response.json();
     },
     register: async (value) => {
+        console.log(value)
         const result = await fetch('http://localhost:3022/graphql', {
             method: 'POST',
             headers: {
@@ -94,11 +96,13 @@ const api = {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                query: `mutation {
-                                createUser(login:"${value.login}", password:"${value.password}",email:"${value.email}",name:"${value.name}")
-                            }`
+                query: `mutation createUser($value: CreateUser) {
+                                createUser(input: $value)
+                            }`,
+                variables: {
+                    value
+                }
             }),
-            variables: {}
         })
         const resultJson = await result.json()
         return resultJson && resultJson.data.createUser
