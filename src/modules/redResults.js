@@ -1,4 +1,6 @@
 import update from 'immutability-helper';
+import api from '../helpers/api'
+
 export default function reducer(state = {
   data: null,
   isEditing: null
@@ -51,32 +53,8 @@ export const setResultsData = (dispatch) => {
 
   return async () => {
     dispatch(fetchStart());
-    const response = await fetch('http://localhost:3022/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': "Bearer " + localStorage.authToken
-      },
-      body: JSON.stringify({
-        query: `query FindUserResults{
-          findUserResults(username:"My"){
-            name,
-            analyzeType,
-            id,
-            date,
-            imgsPaths,
-            doctorName,
-            note
-          }
-        }`,
-        variable: {},
-      })
-    });
-    const results = await response.json()
-    console.log('результаты феча', results);
+    const results = await api.getUserResults();
     if (results && results.data && results.data) {
-      console.log('результаты jwt', results);
       return dispatch(fetchDone(results.data.findUserResults))
     }
     dispatch(dispatch(fetchError()))
@@ -88,22 +66,7 @@ export const setIsEditing = (payload) => ({
 });
 
 export const deleteResult = (payload) => {
-  console.log(payload.id)
-  fetch('http://localhost:3022/graphql', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': "Bearer " + localStorage.authToken
-    },
-    body: JSON.stringify({
-      query: `mutation deleteResult{
-   deleteResult(id:"${payload.id}")
-   }
- `,
-  variable: {}
-    })
-  })
+  api.deleteResultById(payload.id)
   return {
     type: 'redResults.deleteResult',
     payload

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Row, Form, Input, Col, DatePicker, Button, Upload, Icon, Spin } from "antd";
+import api from "../helpers/api";
 
 class AddResult extends React.Component {
   state = {
@@ -11,34 +12,7 @@ class AddResult extends React.Component {
       (async ()=>{
       const imgPaths = this.state.imgPaths
       this.setState({fetching: true})
-      const result = await fetch('http://localhost:3022/graphql', {
-          method: 'POST',
-          headers: {
-            'Content-Type': "application/JSON",
-            'Authorization': "Bearer " + localStorage.authToken
-          },
-          body: JSON.stringify({
-            query: `mutation CreateResult{
-              createResult(
-                name:"${values.name}",
-                imgsPaths:"${imgPaths}",
-                doctorName:"${values.doctorName}",
-                analyzeType:"${values.analyzeType}",
-                date: "${values.date}",
-                note:"${values.note}"
-                
-              ) {
-                name
-                date
-                doctorName
-                analyzeType
-                note
-              }
-            }`,
-            variable: {},
-          })
-        
-        })
+        await api.createResult(values, imgPaths)
         this.setState({fetching: false})
       })()
     })

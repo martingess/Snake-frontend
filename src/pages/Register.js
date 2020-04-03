@@ -1,33 +1,22 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { softLogin } from '../modules/redLogin';
 import jwt from 'jwt-decode';
+import api from '../helpers/api';
 
 function RegisterPage(p) {
     const dispatch = useDispatch()
     const { getFieldDecorator } = p.form;
+    const isAnomymous = useSelector(state=> state.login.status === 'anomymous' )
     return (<>
+        {isAnomymous ? <>
         <div>Register</div>
         <Form onSubmit={(e) => {
             e.preventDefault();
-            p.form.validateFields((err, value) => {
+            p.form.validateFields((err, values) => {
                 (async () => {
-                    const result = await fetch('http://localhost:3022/graphql', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/JSON',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            query: `mutation {
-                                createUser(login:"${value.login}", password:"${value.password}",email:"${value.email}",name:"${value.name}")
-                            }`
-                        }),
-                        variables: {}
-                    })
-                    const resultJson = await result.json()
-                    const user = resultJson && resultJson.data.createUser
+                    const user = await api.register(values)
                     //TODO: добавить валидацию пароль там и логин
                     try {
                         jwt(user)
@@ -57,8 +46,9 @@ function RegisterPage(p) {
                 <p>Your name:</p>
                 {getFieldDecorator('name')(<Input />)}
             </Form.Item>
-            <Button htmlType='submit' />
+            <Button htmlType='submit' >Register me now!</Button>
         </Form>
+    </> : <div>You already logged in</div> }
     </>
     )
 }

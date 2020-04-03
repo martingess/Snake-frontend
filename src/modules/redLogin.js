@@ -1,8 +1,9 @@
 import jwt from 'jwt-decode'
+import api from '../helpers/api'
 
 export default function reducer(state = {
   data: null,
-  status: null
+  status: "anomymous"
 }, action) {
   switch (action.type) {
     case ('redLogin.login'):
@@ -11,7 +12,7 @@ export default function reducer(state = {
       };
     case ('redLogin.logout'):
       return {
-        data: null, status: "logout"
+        data: null, status: "anomymous"
       };
     case ('redLogin.fetching'):
       return {
@@ -53,33 +54,19 @@ export function login(dispatch) {
 
   return async (login, password, remember) => {
     dispatch(fetchStart());
-    const response = await fetch('http://localhost:3022/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify({
-        query: `query lg{
-          login(username: "${login}", password: "${password}")
-        }`,
-        variable: {}
-      })
-    });
-    const user = await response.json();
-
-    //Remember user
+    const user = await api.login(login, password)
     if (remember) {
       localStorage.setItem("authToken", user.data.login)
     }
-
     if (user && user.data && user.data.login) {
       try {
         const res = jwt(user.data.login);
         dispatch(fetchDone(res))
+        return true
       } catch (err) {
         localStorage.removeItem('authToken')
-        return dispatch(dispatch(fetchError()))
+        dispatch(dispatch(fetchError()))
+        return false
       }
     }
   }

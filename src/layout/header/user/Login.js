@@ -3,21 +3,26 @@ import { Form, Icon, Input, Button, Checkbox, Spin } from 'antd';
 import { connect } from 'react-redux'
 import { login } from "../../../modules/redLogin";
 import { Link } from "react-router-dom";
+import notification from '../../../helpers/notification'
 
 class NormalLoginForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        const { tryLogin } = this.props;
-        tryLogin(values.username, values.password, values.remember);
+        (async () => {
+          const { tryLogin } = this.props;
+          const result = await tryLogin(values.username, values.password, values.remember);
+          if (result) notification.loginSuccess();
+          else notification.loginFailed();
+        })()
       }
     });
   };
 
   render() {
-    const { state } = this.props
-    if (state.login.status === 'loading') {
+    const { store } = this.props
+    if (store.login.status === 'loading') {
       return <Spin size="large" />
     }
     const { getFieldDecorator } = this.props.form;
@@ -27,7 +32,7 @@ class NormalLoginForm extends React.Component {
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
-            <Input 
+            <Input
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
               placeholder="Username"
             />,
@@ -65,4 +70,4 @@ class NormalLoginForm extends React.Component {
 const WrappedNormalLoginForm = Form.create({ name: 'normal_login' })(NormalLoginForm);
 
 // WrappedNormalLoginForm;
-export default connect(state => ({ state }), dispatch => ({ tryLogin: login(dispatch) }))(WrappedNormalLoginForm)
+export default connect(store => ({ store }), dispatch => ({ tryLogin: login(dispatch) }))(WrappedNormalLoginForm)

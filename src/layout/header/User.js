@@ -6,9 +6,10 @@ import { connect } from "react-redux";
 import UserCard from "./user/UserCard";
 
 function User({ state, dispatch }) {
+  const isLogedIn = state.login.status === 'done'
   return (
     <Popover placement={"bottomRight"} content={
-      (state.login.status === 'done'
+      (isLogedIn
       && <UserCard dispatch={dispatch} user={state.login.data} />)
       || <WrappedNormalLoginForm />
     }>
