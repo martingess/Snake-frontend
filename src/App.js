@@ -13,6 +13,7 @@ import Result from './pages/Result';
 import RegisterPage from './pages/Register';
 import { setResultsData } from './modules/redResults';
 import LoginPage from './pages/LoginPage';
+import UserPage from './pages/UserPage';
 
 function App() {
   if(localStorage.getItem("authToken")){
@@ -43,11 +44,15 @@ function App() {
             </Route>
 
             <Route path={'/showResult:id'} component={Result}/>
-            
+
             <Route path={'/register'}>
               <RegisterPage/>
             </Route>
 
+            <Route path='/user'>
+              <UserPage />
+            </Route>
+            
           </Main>
         </Router>
       </Provider>

@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {Row, Col} from "antd";
+import {Row, Col, Spin} from "antd";
 import ResultCard from "./results/ResultCard";
 import ResultCardEditable from "./results/ResultCardEditable";
 import {connect} from "react-redux";
@@ -40,7 +40,7 @@ function Results({isLogin, resultsData, isEditing, dispatch}) {
           </Col>
         )
       })}
-    </Row>
+    </Row> 
   )
 }
 

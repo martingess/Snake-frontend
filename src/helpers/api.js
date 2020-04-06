@@ -35,7 +35,7 @@ const api = {
                                 note
                             }
                         }`,
-                variable: {},
+                variables: {},
             })
         });
         return await response.json()
@@ -52,7 +52,7 @@ const api = {
                 query: `mutation deleteResult {
                         deleteResult(id:"${id}")
                         }`,
-                variable: {}
+                variables: {}
             })
         })
     },
@@ -82,18 +82,39 @@ const api = {
                                 note
                             }
                         }`,
-                variable: {},
+                variables: {},
 })
         })
         return await response.json();
     },
-    register: async (value) => {
+    updateResult: async (value)=>{
         console.log(value)
+        const response = await fetch('http://localhost:3022/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/JSON',
+                'Accept': 'application/JSON',
+                'Authorization': "Bearer " + localStorage.authToken
+            },
+            body: JSON.stringify({
+                query: `mutation UpdateResult($value: UpdateResult) {
+                    updateResult(result: $value)
+                  }`,
+                  variables: {
+                      value
+                    }
+            })
+        })
+        const updatedResult = await response.json();
+        return updatedResult;
+    },
+
+    register: async (value) => {
         const result = await fetch('http://localhost:3022/graphql', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/JSON',
-                'Accept': 'application/json'
+                'Accept': 'application/JSON'
             },
             body: JSON.stringify({
                 query: `mutation createUser($value: CreateUser) {

@@ -6,11 +6,12 @@ const {Meta} = Card;
 
 export default function ResultCard({data, handleEdit, handleDelete}) {
 const {id, name, date, doctorName, note} = data;
+console.log(data)
 const history = useHistory();
 return (
   <Card hoverable style={{width: 300}}
         cover={
-          <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"/>
+          <img alt="example" src={`http://localhost:3022/${data.imgsPaths[0]}`} />
         }
         actions={[
           <Icon onClick={handleEdit(id)} type="edit" key="edit"/>,
