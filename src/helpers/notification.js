@@ -58,6 +58,20 @@ const notificationList = {
             duration: 2
         })
     },
+    unauthorized: ()=>{
+        notification['error']({
+            message: 'You need to log in first',
+            placement: 'topLeft',
+            duration: 2
+        });
+    },
+    alreadyAuhtorized: () => {
+        notification['error']({
+            message: 'You are already logged in',
+            placement: 'topLeft',
+            duration: 2
+        })
+    }
 }
 
 export default notificationList

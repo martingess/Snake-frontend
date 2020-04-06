@@ -23,15 +23,6 @@ function Result(p) {
   )
 }
 
-//{name,
-// analyzeType,
-// id,
-// date,
-// imgsPaths,
-// doctorName,
-// note
-// }
-
 function DataComponent(p) {
   console.log(p)
   return (Object.keys(p.result).map(item => <div key={item}>{p.result[item]}</div>))

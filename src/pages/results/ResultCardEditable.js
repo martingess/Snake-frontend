@@ -34,9 +34,7 @@ export default function ResultCardEditable({data = {}, handleEdit, isEditing}) {
             <img alt="example" src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"/>
           }
           actions={[
-            //TODO: по нажатию должно отправлять все стейты на сервак
             <Icon onClick={saveResult} type="save" key="save"/>,
-
             <Icon onClick={handleEdit(id)} type="rollback" key="rollback"/>,
           ]}>
       <Meta

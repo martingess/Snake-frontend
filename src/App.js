@@ -14,6 +14,7 @@ import RegisterPage from './pages/Register';
 import { setResultsData } from './modules/redResults';
 import LoginPage from './pages/LoginPage';
 import UserPage from './pages/UserPage';
+import PrivateRoute from './components/PrivateRoutes';
 
 function App() {
   if(localStorage.getItem("authToken")){
@@ -27,9 +28,9 @@ function App() {
           <Header/>
           <Main>
 
-            <Route path={'/login'}>
+            <PrivateRoute anonOnly path={'/login'}>
               <LoginPage/>
-            </Route>
+            </PrivateRoute>
 
             <Route path={'/'} exact>
               <Results/>
@@ -39,19 +40,19 @@ function App() {
               <div>About us</div>
             </Route>
 
-            <Route path={'/addResult'}>
+            <PrivateRoute path={'/addResult'}>
               <AddResult/>
-            </Route>
+            </PrivateRoute>
 
-            <Route path={'/showResult:id'} component={Result}/>
+            <PrivateRoute path={'/showResult:id'} component={Result}/>
 
-            <Route path={'/register'}>
+            <PrivateRoute anonOnly={true} path={'/register'}>
               <RegisterPage/>
-            </Route>
+            </PrivateRoute>
 
-            <Route path='/user'>
+            <PrivateRoute path='/user'>
               <UserPage />
-            </Route>
+            </PrivateRoute>
             
           </Main>
         </Router>

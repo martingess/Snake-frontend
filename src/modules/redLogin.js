@@ -65,7 +65,7 @@ export function login(dispatch) {
         return true
       } catch (err) {
         localStorage.removeItem('authToken')
-        dispatch(dispatch(fetchError()))
+        dispatch(fetchError())
         return false
       }
     }

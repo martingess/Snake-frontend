@@ -118,7 +118,7 @@ const api = {
             },
             body: JSON.stringify({
                 query: `mutation createUser($value: CreateUser) {
-                                createUser(input: $value)
+                                createUser(user: $value)
                             }`,
                 variables: {
                     value
@@ -127,6 +127,24 @@ const api = {
         })
         const resultJson = await result.json()
         return resultJson && resultJson.data.createUser
+    },
+    
+    deleteUser: async () => {
+        const response = await fetch('http://localhost:3022/graphql', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/JSON',
+                'Accept': 'application/JSON',
+                'Authorization': "Bearer " + localStorage.authToken
+            },
+            body: JSON.stringify({
+                query: `mutation {
+                                deleteUser
+                            }`
+            }),
+        })
+        const result = response.json()
+        return result
     }
 
 }

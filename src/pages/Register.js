@@ -4,15 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { softLogin } from '../modules/redLogin';
 import jwt from 'jwt-decode';
 import api from '../helpers/api';
-import { useHistory } from 'react-router-dom';
 import notification from '../helpers/notification';
 
 function RegisterPage(p) {
     const dispatch = useDispatch()
     const { getFieldDecorator } = p.form;
-    const isAnomymous = useSelector(state=> state.login.status === 'anomymous' )
-    const history = useHistory();
-    if(!isAnomymous) history.push('/')
+    const isAnomymous = useSelector(state=> state.login.status === 'anomymous' || state.login.status === 'error' )
     return (<>
         {isAnomymous ? <>
         <div>Register</div>
@@ -23,9 +20,9 @@ function RegisterPage(p) {
                     const user = await api.register(values)
                     //TODO: добавить валидацию пароль там и логин
                     try {
-                        jwt(user)
-                        localStorage.setItem('authToken', user)
-                        dispatch(softLogin())
+                        jwt(user);
+                        localStorage.setItem('authToken', user);
+                        dispatch(softLogin());
                         notification.registrationComplete();
                         return
                     } catch (err) {
