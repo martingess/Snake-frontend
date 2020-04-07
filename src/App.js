@@ -27,14 +27,13 @@ function App() {
         <Router>
           <Header/>
           <Main>
-
             <PrivateRoute anonOnly path={'/login'}>
               <LoginPage/>
             </PrivateRoute>
 
-            <Route path={'/'} exact>
+            <PrivateRoute path={'/'} exact>
               <Results/>
-            </Route>
+            </PrivateRoute>
 
             <Route path={'/about'}>
               <div>About us</div>

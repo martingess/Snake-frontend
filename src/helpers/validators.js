@@ -13,7 +13,6 @@ const validators = {
             max: 32,
             message: 'Your password is strong enough, please calm down'
         },
-
     ],
     name: [{
         type: 'string',
@@ -24,6 +23,21 @@ const validators = {
         type: 'string',
         min: 2,
         message: 'Your login must have at least 2 characters'
-    }]
+    }],
+    repeatPassword: function (props) {
+        return [...this.password, {
+            validator: (rule, value, callback) => {
+                const {
+                    form
+                } = props;
+                if (value && value !== form.getFieldValue('password')) {
+                    callback(true)
+                } else {
+                    callback()
+                }
+            },
+            message: 'Password mismatch'
+        }]
+    }
 }
 export default validators

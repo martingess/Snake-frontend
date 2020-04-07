@@ -10,7 +10,7 @@ export default function PrivateRouteWrapper({anonOnly, children, ...rest }) {
             <Route
             {...rest}
             render={({ location }) =>
-                !isLogedIn ? (children) : notificationList.alreadyAuhtorized() ? null : (
+                !isLogedIn ? (children) : (
                     <Redirect
                         to={{
                             pathname: "/",

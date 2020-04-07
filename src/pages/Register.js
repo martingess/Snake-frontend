@@ -13,8 +13,15 @@ function RegisterPage(p) {
         e.preventDefault();
         p.form.validateFields((err, values) => {
             if (!err) {
+                const formData = {};
+                for (let value in values) {
+                    console.log(values[value])
+                    if (values[value] && value !== 'passwordCheck') formData[value] = values[value]
+                    console.log(formData)
+                }
+
                 (async () => {
-                    const user = await api.register(values)
+                    const user = await api.register(formData)
                     try {
                         jwt(user);
                         localStorage.setItem('authToken', user);
@@ -31,7 +38,7 @@ function RegisterPage(p) {
             notification.registrationFailed();
         })
     }
-    
+
     return (
         <>
             <div>Register</div>
@@ -43,6 +50,10 @@ function RegisterPage(p) {
                 <Form.Item>
                     <p>Password:</p>
                     {getFieldDecorator('password', { rules: validators.password })(<Input.Password />)}
+                </Form.Item>
+                <Form.Item>
+                    <p>Repeat password:</p>
+                    {getFieldDecorator('passwordCheck', { rules: validators.repeatPassword(p) })(<Input.Password />)}
                 </Form.Item>
                 <Form.Item>
                     <p>email:</p>

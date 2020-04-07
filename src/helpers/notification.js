@@ -59,7 +59,7 @@ const notificationList = {
         })
     },
     unauthorized: ()=>{
-        notification['error']({
+        notification['warning']({
             message: 'You need to log in first',
             placement: 'topLeft',
             duration: 2
@@ -68,6 +68,34 @@ const notificationList = {
     alreadyAuhtorized: () => {
         notification['error']({
             message: 'You are already logged in',
+            placement: 'topLeft',
+            duration: 2
+        })
+    },
+    passwordIncorrect: () => {
+        notification['error']({
+            message: 'Password confirmation failed',
+            placement: 'topLeft',
+            duration: 2
+        })
+    },
+    fieldsValidationFailed: () => {
+        notification['error']({
+            message: 'Validation failed, please, check fields one more time',
+            placement: 'topLeft',
+            duration: 2
+        })
+    },
+    userUpdated: () => {
+        notification['success']({
+            message: 'User info successuly updated',
+            placement: 'topLeft',
+            duration: 2
+        })
+    },
+    passwordUpdated: () => {
+        notification['success']({
+            message: 'Password successuly updated, now you need to log in again',
             placement: 'topLeft',
             duration: 2
         })

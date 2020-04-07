@@ -179,6 +179,30 @@ const api = {
         } catch (err) {
             return null
         }
+    },
+    updateUser: async (updatedUserInfo) => {
+        try{
+            const response = await fetch('http://localhost:3022/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/JSON',
+                    'Accept': 'application/JSON',
+                    'Authorization': "Bearer " + localStorage.authToken
+                },
+                body: JSON.stringify({
+                    query: `mutation ($user: inputUpdateUser) {
+                        updateUser(user: $user)
+                    }`,
+                    variables: {
+                        user: updatedUserInfo
+                    }
+                })
+            })
+            const result = await response.json();
+            return result
+        } catch (err){
+
+        }
     }
 
 
