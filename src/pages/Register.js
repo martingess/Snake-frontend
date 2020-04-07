@@ -5,20 +5,16 @@ import { softLogin } from '../modules/redLogin';
 import jwt from 'jwt-decode';
 import api from '../helpers/api';
 import notification from '../helpers/notification';
-
+import validators from '../helpers/validators'
 function RegisterPage(p) {
     const dispatch = useDispatch()
     const { getFieldDecorator } = p.form;
-    const isAnomymous = useSelector(state=> state.login.status === 'anomymous' || state.login.status === 'error' )
-    return (<>
-        {isAnomymous ? <>
-        <div>Register</div>
-        <Form onSubmit={(e) => {
-            e.preventDefault();
-            p.form.validateFields((err, values) => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        p.form.validateFields((err, values) => {
+            if (!err) {
                 (async () => {
                     const user = await api.register(values)
-                    //TODO: добавить валидацию пароль там и логин
                     try {
                         jwt(user);
                         localStorage.setItem('authToken', user);
@@ -31,29 +27,34 @@ function RegisterPage(p) {
                         return
                     }
                 })()
-            })
-        }}>
-            //TODO: добавить валидаторов ввода на фронте
-            <Form.Item>
-                <p>Username:</p>
-                {getFieldDecorator('login')(<Input />)}
-            </Form.Item>
-            <Form.Item>
-                <p>Password:</p>
-                {getFieldDecorator('password')(<Input />)}
-            </Form.Item>
-            <Form.Item>
-                <p>email:</p>
-                {getFieldDecorator('email')(<Input />)}
-            </Form.Item>
-            <Form.Item>
-                <p>Your name:</p>
-                {getFieldDecorator('name')(<Input />)}
-            </Form.Item>
-            <Button htmlType='submit' >Register me now!</Button>
-        </Form>
-    </> : <div>You already logged in</div> }
-    </>
+            }
+            notification.registrationFailed();
+        })
+    }
+    
+    return (
+        <>
+            <div>Register</div>
+            <Form onSubmit={handleSubmit}>
+                <Form.Item>
+                    <p>Username:</p>
+                    {getFieldDecorator('login', { rules: validators.username })(<Input />)}
+                </Form.Item>
+                <Form.Item>
+                    <p>Password:</p>
+                    {getFieldDecorator('password', { rules: validators.password })(<Input.Password />)}
+                </Form.Item>
+                <Form.Item>
+                    <p>email:</p>
+                    {getFieldDecorator('email', { rules: validators.email })(<Input />)}
+                </Form.Item>
+                <Form.Item>
+                    <p>Your name:</p>
+                    {getFieldDecorator('name')(<Input />)}
+                </Form.Item>
+                <Button htmlType='submit' >Register me now!</Button>
+            </Form>
+        </>
     )
 }
 
