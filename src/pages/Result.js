@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useRef } from 'react';
 import { Carousel, Col, Row, Icon } from 'antd';
 import { useSelector } from 'react-redux';

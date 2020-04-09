@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, {useState} from "react";
 import {Card, Icon, Input, DatePicker} from "antd";
 import moment from "moment";

@@ -1,36 +1,35 @@
 const api = {
-    login: async (login, password) => {
-        try {
-            const response = await fetch('http://localhost:3022/graphql', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                },
-                body: JSON.stringify({
-                    query: `query lg{
+  login: async (login, password) => {
+    try {
+      const response = await fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          query: `query lg{
                             login(username: "${login}", password: "${password}")
                         }`,
-                    variable: {}
-                })
-            });
-            return await response.json();
-        } catch (err) {
-            return null
-        }
-    },
-    getUserResults: async () => {
-        try {
-
-            const response = await fetch('http://localhost:3022/graphql', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': "Bearer " + localStorage.authToken
-                },
-                body: JSON.stringify({
-                    query: `query FindUserResults{
+          variable: {},
+        }),
+      });
+      return await response.json();
+    } catch (err) {
+      return null;
+    }
+  },
+  getUserResults: async () => {
+    try {
+      const response = await fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + localStorage.authToken,
+        },
+        body: JSON.stringify({
+          query: `query FindUserResults{
                             findUserResults(username:"My"){
                                 name,
                                 analyzeType,
@@ -41,50 +40,48 @@ const api = {
                                 note
                             }
                         }`,
-                    variables: {},
-                })
-            });
-            return await response.json()
-        } catch (err) {
-            return null
-        }
-    },
-    deleteResultById: async (id) => {
-        try {
-
-            fetch('http://localhost:3022/graphql', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'Authorization': "Bearer " + localStorage.authToken
-                },
-                body: JSON.stringify({
-                    query: `mutation deleteResult {
+          variables: {},
+        }),
+      });
+      return await response.json();
+    } catch (err) {
+      return null;
+    }
+  },
+  deleteResultById: async (id) => {
+    try {
+      fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + localStorage.authToken,
+        },
+        body: JSON.stringify({
+          query: `mutation deleteResult {
                         deleteResult(id:"${id}")
                         }`,
-                    variables: {}
-                })
-            })
-        } catch (err) {
-            return null
-        }
-    },
-    createResult: async (values, imgPaths) => {
-        try {
+          variables: {},
+        }),
+      });
+    } catch (err) {
+      return null;
+    }
+  },
+  createResult: async (values, imgPaths) => {
+    try {
+      console.log(values);
 
-            console.log(values)
+      const imgsPathsJson = JSON.stringify(imgPaths);
 
-            const imgsPathsJson = JSON.stringify(imgPaths)
-
-            const response = await fetch('http://localhost:3022/graphql', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': "application/JSON",
-                    'Authorization': "Bearer " + localStorage.authToken
-                },
-                body: JSON.stringify({
-                    query: `mutation CreateResult {
+      const response = await fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/JSON',
+          Authorization: 'Bearer ' + localStorage.authToken,
+        },
+        body: JSON.stringify({
+          query: `mutation CreateResult {
                             createResult(result: {name: "${values.name}", 
                             date: "${values.date}", 
                             doctorName: "${values.doctorName}", 
@@ -98,113 +95,130 @@ const api = {
                                 note
                             }
                         }`,
-                    variables: {},
-                })
-            })
-            return await response.json();
-        } catch (err) {
-            return null
-        }
-    },
-    updateResult: async (value) => {
-        try {
-
-            console.log(value)
-            const response = await fetch('http://localhost:3022/graphql', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/JSON',
-                    'Accept': 'application/JSON',
-                    'Authorization': "Bearer " + localStorage.authToken
-                },
-                body: JSON.stringify({
-                    query: `mutation UpdateResult($value: UpdateResult) {
+          variables: {},
+        }),
+      });
+      return await response.json();
+    } catch (err) {
+      return null;
+    }
+  },
+  updateResult: async (value) => {
+    try {
+      console.log(value);
+      const response = await fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/JSON',
+          Accept: 'application/JSON',
+          Authorization: 'Bearer ' + localStorage.authToken,
+        },
+        body: JSON.stringify({
+          query: `mutation UpdateResult($value: UpdateResult) {
                     updateResult(result: $value)
                   }`,
-                    variables: {
-                        value
-                    }
-                })
-            })
-            const updatedResult = await response.json();
-            return updatedResult;
-        } catch (err) {
-            return null
-        }
-    },
+          variables: {
+            value,
+          },
+        }),
+      });
+      const updatedResult = await response.json();
+      return updatedResult;
+    } catch (err) {
+      return null;
+    }
+  },
 
-    register: async (value) => {
-        try {
-
-            const result = await fetch('http://localhost:3022/graphql', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/JSON',
-                    'Accept': 'application/JSON'
-                },
-                body: JSON.stringify({
-                    query: `mutation createUser($value: CreateUser) {
+  register: async (value) => {
+    try {
+      const result = await fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/JSON',
+          Accept: 'application/JSON',
+        },
+        body: JSON.stringify({
+          query: `mutation createUser($value: CreateUser) {
                                 createUser(user: $value)
                             }`,
-                    variables: {
-                        value
-                    }
-                }),
-            })
-            const resultJson = await result.json()
-            return resultJson && resultJson.data.createUser
-        } catch (err) {
-            return null
-        }
-    },
+          variables: {
+            value,
+          },
+        }),
+      });
+      const resultJson = await result.json();
+      return resultJson && resultJson.data.createUser;
+    } catch (err) {
+      return null;
+    }
+  },
 
-    deleteUser: async () => {
-        try {
-
-            const response = await fetch('http://localhost:3022/graphql', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/JSON',
-                    'Accept': 'application/JSON',
-                    'Authorization': "Bearer " + localStorage.authToken
-                },
-                body: JSON.stringify({
-                    query: `mutation {
+  deleteUser: async () => {
+    try {
+      const response = await fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/JSON',
+          Accept: 'application/JSON',
+          Authorization: 'Bearer ' + localStorage.authToken,
+        },
+        body: JSON.stringify({
+          query: `mutation {
                                 deleteUser
-                            }`
-                }),
-            })
-            const result = response.json()
-            return result
-        } catch (err) {
-            return null
-        }
-    },
-    updateUser: async (updatedUserInfo) => {
-        try{
-            const response = await fetch('http://localhost:3022/graphql', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/JSON',
-                    'Accept': 'application/JSON',
-                    'Authorization': "Bearer " + localStorage.authToken
-                },
-                body: JSON.stringify({
-                    query: `mutation ($user: inputUpdateUser) {
+                            }`,
+        }),
+      });
+      const result = response.json();
+      return result;
+    } catch (err) {
+      return null;
+    }
+  },
+  updateUser: async (updatedUserInfo) => {
+    try {
+      const response = await fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/JSON',
+          Accept: 'application/JSON',
+          Authorization: 'Bearer ' + localStorage.authToken,
+        },
+        body: JSON.stringify({
+          query: `mutation ($user: inputUpdateUser) {
                         updateUser(user: $user)
                     }`,
-                    variables: {
-                        user: updatedUserInfo
-                    }
-                })
-            })
-            const result = await response.json();
-            return result
-        } catch (err){
-
-        }
+          variables: {
+            user: updatedUserInfo,
+          },
+        }),
+      });
+      const result = await response.json();
+      return result;
+    } catch (err) {
+        return null
     }
-
-
-}
+  },
+  search: async (query) => {
+    const response = await fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/JSON',
+          Accept: 'application/JSON',
+          Authorization: 'Bearer ' + localStorage.authToken,
+        },
+        body: JSON.stringify({
+          query: `query {
+                        search(query: "${query}"){
+                            id,
+                            name,
+                            imgsPaths
+                        }
+                    }`,
+        }),
+      });
+      const result = await response.json();
+      console.log(result)
+      return result
+  }
+};
 export default api;
