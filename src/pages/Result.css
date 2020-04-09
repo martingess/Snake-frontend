@@ -1,0 +1,20 @@
+.result__carousel {
+    position: relative;
+}
+
+.result__carousel .result__left-arrow {
+    position: absolute;
+    top: 25vh;
+    z-index: 1;
+    font-size: 30px;
+    color: white
+}
+
+.result__carousel .result__right-arrow {
+    position: absolute;
+    top: 25vh;
+    right: 0;
+    z-index: 1;
+    font-size: 30px;
+    color: white
+}

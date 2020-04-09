@@ -1,20 +1,27 @@
 import update from 'immutability-helper';
-import api from '../helpers/api'
+import api from '../helpers/api';
 
-export default function reducer(state = {
-  data: null,
-  isEditing: null
-}, action) {
+export default function reducer(
+  state = {
+    data: null,
+    isEditing: null,
+  },
+  action,
+) {
   switch (action.type) {
-    case ('redResults.setData'):
+    case 'redResults.setData': {
       return {
-        ...state, data: action.payload, status: action.status
+        ...state,
+        data: action.payload,
+        status: action.status,
       };
-    case ('redResults.setIsEditing'):
+    }
+    case 'redResults.setIsEditing':
       return {
-        ...state, isEditing: action.payload
+        ...state,
+        isEditing: action.payload,
       };
-    case ('redResults.deleteResult'):
+    case 'redResults.deleteResult': {
       let toDeleteArrayIndex;
       for (let i = 0; i < state.data.length; i++) {
         if (state.data[i].id === action.payload.id) {
@@ -26,11 +33,10 @@ export default function reducer(state = {
       }
       return update(state, {
         data: {
-          $splice: [
-            [toDeleteArrayIndex, 1]
-          ]
-        }
+          $splice: [[toDeleteArrayIndex, 1]],
+        },
       });
+    }
     default:
       return state;
   }
@@ -39,36 +45,36 @@ export default function reducer(state = {
 export const setResultsData = (dispatch) => {
   const fetchStart = () => ({
     type: 'redResults.setData',
-    status: 'loading'
+    status: 'loading',
   });
   const fetchDone = (data) => ({
     type: 'redResults.setData',
     status: 'done',
-    payload: data
+    payload: data,
   });
   const fetchError = () => ({
     type: 'redResults.setData',
-    status: 'error'
+    status: 'error',
   });
 
   return async () => {
     dispatch(fetchStart());
     const results = await api.getUserResults();
     if (results && results.data && results.data) {
-      return dispatch(fetchDone(results.data.findUserResults))
+      return dispatch(fetchDone(results.data.findUserResults));
     }
-    dispatch(dispatch(fetchError()))
-  }
-}
+    dispatch(dispatch(fetchError()));
+  };
+};
 export const setIsEditing = (payload) => ({
   type: 'redResults.setIsEditing',
-  payload
+  payload,
 });
 
 export const deleteResult = (payload) => {
-  api.deleteResultById(payload.id)
+  api.deleteResultById(payload.id);
   return {
     type: 'redResults.deleteResult',
-    payload
-  }
+    payload,
+  };
 };

@@ -4,7 +4,7 @@ import './User.css'
 import WrappedNormalLoginForm from "../../components/Login";
 import { connect } from "react-redux";
 import UserCard from "./user/UserCard";
-import { useHistory, Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function User({ state, dispatch }) {
   const history = useHistory();

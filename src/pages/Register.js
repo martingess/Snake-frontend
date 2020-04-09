@@ -1,6 +1,6 @@
 import React from 'react';
 import { Form, Input, Button } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { softLogin } from '../modules/redLogin';
 import jwt from 'jwt-decode';
 import api from '../helpers/api';
