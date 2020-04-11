@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React, { useState } from 'react';
 import { Input, Popover, List, Avatar } from 'antd';
 import api from '../../helpers/api';

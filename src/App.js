@@ -48,7 +48,7 @@ function App() {
               component={Result}
             />
 
-            <PrivateRoute anonOnly={true} path={'/register'}>
+            <PrivateRoute anonOnly path={'/register'}>
               <RegisterPage />
             </PrivateRoute>
 

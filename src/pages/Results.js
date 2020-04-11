@@ -24,12 +24,12 @@ function Results({ isLogin, resultsData, isEditing, dispatch }) {
     dispatch(deleteResult({ id }));
   };
   return (
-    <Row type="flex" gutter={[16, 32]}>
+    <Row type="flex" justify="space-around" gutter={[16, 32]}>
       {resultsData &&
         resultsData.map((dataItem) => {
           if (isEditing === dataItem.id) {
             return (
-              <Col key={dataItem.id} span={8}>
+              <Col key={dataItem.id} span={4} offset={2}>
                 <ResultCardEditable
                   handleEdit={handleEdit}
                   isEditing={isEditing}
@@ -40,7 +40,7 @@ function Results({ isLogin, resultsData, isEditing, dispatch }) {
             );
           }
           return (
-            <Col key={dataItem.id} span={8}>
+            <Col key={dataItem.id} span={4} offset={2}>
               <ResultCard
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
