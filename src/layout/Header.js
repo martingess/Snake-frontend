@@ -5,15 +5,15 @@ import Search from './header/Search';
 import User from './header/User';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
 const { Header: AntHeader } = Layout;
 
+//TODO: имплементировать style={{position: 'fixed', width: '100vw', zIndex: 1, margin: "10px"}}
 export default function Header() {
   const isLoggedIn = useSelector(
     (state) => state.login.status === 'done',
   );
   return (
-    <AntHeader className={'header'}>
+    <AntHeader  className={'header'}>
       <Row type={'flex'} align={'middle'}>
         <Col span={2} offset={1}>
           <div>logo</div>

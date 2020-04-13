@@ -29,7 +29,7 @@ function Results({ isLogin, resultsData, isEditing, dispatch }) {
         resultsData.map((dataItem) => {
           if (isEditing === dataItem.id) {
             return (
-              <Col key={dataItem.id} span={4} offset={2}>
+              <Col key={dataItem.id} span={4}>
                 <ResultCardEditable
                   handleEdit={handleEdit}
                   isEditing={isEditing}
@@ -40,7 +40,13 @@ function Results({ isLogin, resultsData, isEditing, dispatch }) {
             );
           }
           return (
-            <Col key={dataItem.id} span={4} offset={2}>
+            <Col
+              key={dataItem.id}
+              xs={24}
+              md={12}
+              lg={10}
+              xl={8}
+              xxl={6}>
               <ResultCard
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}

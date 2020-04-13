@@ -14,11 +14,11 @@ class AddResult extends React.Component {
       const imgPaths = this.state.imgPaths
       this.setState({fetching: true})
       try{
-        const result = await api.createResult(values, imgPaths)
+        await api.createResult(values, imgPaths)
         //TODO: добавить валидацию на случай ошибки
         notification.resultAddedSuccessfuly()
         this.setState({fetching: false})
-      } catch (e){
+      } catch (e) {
         notification.resultAddingFailed();
       }
       })()

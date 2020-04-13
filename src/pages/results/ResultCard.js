@@ -20,9 +20,12 @@ export default function ResultCard({
     : imgPlaceholder;
   return (
     <Card
+      style={{
+        margin: '0 auto',
+        width: '300px',
+      }}
       className={'result__card'}
       hoverable
-      style={{ width: 300 }}
       cover={<img alt="example" src={mainImg} />}
       actions={[
         <Icon onClick={handleEdit(id)} type="edit" key="edit" />,
@@ -39,7 +42,11 @@ export default function ResultCard({
           <div>
             <div>{moment(date).format('MMMM Do YYYY')}</div>
             <div>Doctor: {doctorName}</div>
-            {note && <div className={"result__card-description"} >Notes: {note}</div>}
+            {note && (
+              <div className={'result__card-description'}>
+                Notes: {note}
+              </div>
+            )}
           </div>
         }
       />
