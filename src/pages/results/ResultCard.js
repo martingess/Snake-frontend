@@ -11,10 +11,10 @@ export default function ResultCard({
   data,
   handleEdit,
   handleDelete,
+  isNotOwner
 }) {
   const { id, name, date, doctorName, note } = data;
   const history = useHistory();
-  console.log(process.env);
   const mainImg = data.imgsPaths[0]
     ? process.env.REACT_APP_BACKEND_PATH + data.imgsPaths[0]
     : imgPlaceholder;
@@ -27,7 +27,7 @@ export default function ResultCard({
       className={'result__card'}
       hoverable
       cover={<img alt="example" src={mainImg} />}
-      actions={[
+      actions={isNotOwner ? [] : [
         <Icon onClick={handleEdit(id)} type="edit" key="edit" />,
         <Icon
           onClick={handleDelete(id)}

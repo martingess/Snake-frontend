@@ -5,6 +5,7 @@ export default function reducer(
   state = {
     data: null,
     isEditing: null,
+    status: null,
   },
   action,
 ) {
@@ -16,11 +17,12 @@ export default function reducer(
         status: action.status,
       };
     }
-    case 'redResults.setIsEditing':
+    case 'redResults.setIsEditing': {
       return {
         ...state,
         isEditing: action.payload,
       };
+    }
     case 'redResults.deleteResult': {
       let toDeleteArrayIndex;
       for (let i = 0; i < state.data.length; i++) {
@@ -36,6 +38,9 @@ export default function reducer(
           $splice: [[toDeleteArrayIndex, 1]],
         },
       });
+    }
+    case 'redResults.clear': {
+      return { status: null, isEditing: null, data: null };
     }
     default:
       return state;
@@ -66,6 +71,9 @@ export const setResultsData = (dispatch) => {
     dispatch(dispatch(fetchError()));
   };
 };
+
+export const clearResults = () => ({type: 'redResults.clear'})
+
 export const setIsEditing = (payload) => ({
   type: 'redResults.setIsEditing',
   payload,

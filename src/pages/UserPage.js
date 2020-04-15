@@ -6,12 +6,14 @@ import { logout } from '../modules/redLogin';
 import validators from '../helpers/validators';
 import { useState } from 'react';
 import notificationList from '../helpers/notification';
+import { clearResults } from '../modules/redResults';
+
 function UserPage(p) {
   const dispatch = useDispatch();
   const handleDelete = async () => {
-    const result = await api.deleteUser();
-    console.log(result);
+    await api.deleteUser();
     dispatch(logout());
+    dispatch(clearResults());
   };
   const { getFieldDecorator, validateFields } = p.form;
   const [passwordToProcess, setPasswordToProcess] = useState('');

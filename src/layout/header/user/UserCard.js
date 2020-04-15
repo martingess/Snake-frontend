@@ -4,6 +4,7 @@ import {logout} from "../../../modules/redLogin";
 import notification from "../../../helpers/notification";
 import { useHistory } from "react-router-dom";
 import { clearApproveResults } from "../../../modules/redDoctor";
+import { clearResults } from "../../../modules/redResults";
 
 const {Meta} = Card;
 
@@ -19,6 +20,7 @@ export default function UserCard (p) {
             <Icon onClick={() => {
               dispatch(logout())
               dispatch(clearApproveResults())
+              dispatch(clearResults());
               notification.logout()
             }} type="logout" key="logout"/>,
           ]}
