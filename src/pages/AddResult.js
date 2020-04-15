@@ -64,7 +64,7 @@ class AddResult extends React.Component {
                 if(e.file.status === 'done'){
                   const imgPaths = e.file.response.data[0].substr('public'.length)
                   this.setState({imgPaths: [...this.state.imgPaths, imgPaths]})
-                  console.log(this.state)
+                  console.log(this.state);
                 }
               }}>
                 <Button>

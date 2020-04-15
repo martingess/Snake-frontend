@@ -1,0 +1,10 @@
+.result__card{
+  overflow: hidden;
+  max-height: 500px;
+}
+.result__card-description{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 50px;
+}

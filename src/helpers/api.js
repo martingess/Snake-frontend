@@ -30,7 +30,7 @@ const api = {
         },
         body: JSON.stringify({
           query: `query FindUserResults{
-                            findUserResults(username:"My"){
+                            findUserResults{
                                 name,
                                 analyzeType,
                                 id,
@@ -219,6 +219,45 @@ const api = {
       const result = await response.json();
       console.log(result)
       return result
+  },
+  doctorApproveResult: async (id) => {
+    const response = await fetch('http://localhost:3022/graphql', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/JSON',
+          Accept: 'application/JSON',
+          Authorization: 'Bearer ' + localStorage.authToken,
+        },
+        body: JSON.stringify({
+          query: `mutation ApproveRes($resultId: String!){
+            approveResult(id: $resultId)
+          }`,
+          variables: {
+            resultId: id
+          }
+        }),
+      });
+      const result = await response.json();
+      console.log(result)
+  },
+  doctorRejectResult: async (id) => {
+    const response = await fetch('http://localhost:3022/graphql', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/JSON',
+        Accept: 'application/JSON',
+        Authorization: 'Bearer ' + localStorage.authToken,
+      },
+      body: JSON.stringify({
+        query: `mutation RemoveDoctor($resultId: String!){
+          removeDoctorFromResult(resultId: $resultId)
+        }`,
+        variables: {
+          resultId: id
+        }
+      }),
+    });
+    const result = await response.json();
   }
 };
 export default api;

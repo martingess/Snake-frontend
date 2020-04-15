@@ -1,11 +1,12 @@
 import React from 'react';
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { softLogin } from '../modules/redLogin';
 import jwt from 'jwt-decode';
 import api from '../helpers/api';
 import notification from '../helpers/notification';
 import validators from '../helpers/validators';
+
 function RegisterPage(p) {
   const dispatch = useDispatch();
   const { getFieldDecorator } = p.form;
@@ -69,6 +70,15 @@ function RegisterPage(p) {
         <Form.Item>
           <p>Your name:</p>
           {getFieldDecorator('name')(<Input />)}
+        </Form.Item>
+        <Form.Item>
+          <p>Role:</p>
+          {getFieldDecorator('role', {initialValue: "patient"})(
+            <Select>
+              <Select.Option value="patient">Patient</Select.Option>
+              <Select.Option value="doctor">Doctor</Select.Option>
+            </Select>,
+          )}
         </Form.Item>
         <Button htmlType="submit">Register me now!</Button>
       </Form>

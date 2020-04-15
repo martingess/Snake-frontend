@@ -15,6 +15,7 @@ import { setResultsData } from './modules/redResults';
 import LoginPage from './pages/LoginPage';
 import UserPage from './pages/UserPage';
 import PrivateRoute from './components/PrivateRoutes';
+import PatientsResultsPage from './pages/PatientsResultsPage';
 
 function App() {
   if (localStorage.getItem('authToken')) {
@@ -47,7 +48,10 @@ function App() {
               path={'/showResult:id'}
               component={Result}
             />
-
+            <PrivateRoute
+              path={'/patientsResults'}
+              component={PatientsResultsPage}>
+            </PrivateRoute>
             <PrivateRoute anonOnly path={'/register'}>
               <RegisterPage />
             </PrivateRoute>
