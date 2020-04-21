@@ -48,10 +48,12 @@ function App() {
               path={'/showResult:id'}
               component={Result}
             />
+
             <PrivateRoute
               path={'/patientsResults'}
               component={PatientsResultsPage}>
             </PrivateRoute>
+            
             <PrivateRoute anonOnly path={'/register'}>
               <RegisterPage />
             </PrivateRoute>
