@@ -16,6 +16,7 @@ import LoginPage from './pages/LoginPage';
 import UserPage from './pages/UserPage';
 import PrivateRoute from './components/PrivateRoutes';
 import PatientsResultsPage from './pages/PatientsResultsPage';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
   if (localStorage.getItem('authToken')) {
@@ -27,41 +28,42 @@ function App() {
       <Provider store={store}>
         <Router>
           <Header />
-          <Main>
-            <PrivateRoute anonOnly path={'/login'}>
-              <LoginPage />
-            </PrivateRoute>
+          <ErrorPage>
+            <Main>
+              <PrivateRoute anonOnly path={'/login'}>
+                <LoginPage />
+              </PrivateRoute>
 
-            <PrivateRoute path={'/'} exact>
-              <Results />
-            </PrivateRoute>
+              <PrivateRoute path={'/'} exact>
+                <Results />
+              </PrivateRoute>
 
-            <Route path={'/about'}>
-              <div>About us</div>
-            </Route>
+              <Route path={'/about'}>
+                <div>About us</div>
+              </Route>
 
-            <PrivateRoute path={'/addResult'}>
-              <AddResult />
-            </PrivateRoute>
+              <PrivateRoute path={'/addResult'}>
+                <AddResult />
+              </PrivateRoute>
 
-            <PrivateRoute
-              path={'/showResult:id'}
-              component={Result}
-            />
+              <PrivateRoute
+                path={'/showResult:id'}
+                component={Result}
+              />
 
-            <PrivateRoute
-              path={'/patientsResults'}
-              component={PatientsResultsPage}>
-            </PrivateRoute>
-            
-            <PrivateRoute anonOnly path={'/register'}>
-              <RegisterPage />
-            </PrivateRoute>
+              <PrivateRoute
+                path={'/patientsResults'}
+                component={PatientsResultsPage}></PrivateRoute>
 
-            <PrivateRoute path="/user">
-              <UserPage />
-            </PrivateRoute>
-          </Main>
+              <PrivateRoute anonOnly path={'/register'}>
+                <RegisterPage />
+              </PrivateRoute>
+
+              <PrivateRoute path="/user">
+                <UserPage />
+              </PrivateRoute>
+            </Main>
+          </ErrorPage>
         </Router>
       </Provider>
     </div>

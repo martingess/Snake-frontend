@@ -55,13 +55,13 @@ export function login(dispatch) {
   return async (login, password, remember) => {
     dispatch(fetchStart());
     const user = await api.login(login, password)
-    if (remember) {
+    if (remember && user) {
       localStorage.setItem("authToken", user.data.login)
     }
     if (user && user.data && user.data.login) {
       try {
         const res = jwt(user.data.login);
-        dispatch(fetchDone(res))
+        dispatch(fetchDone({...res, jwt: user.data.login}))
         return true
       } catch (err) {
         localStorage.removeItem('authToken')
@@ -69,5 +69,7 @@ export function login(dispatch) {
         return false
       }
     }
+    dispatch(fetchError())
+    return false
   }
 }

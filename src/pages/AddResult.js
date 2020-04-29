@@ -51,12 +51,6 @@ class AddResult extends React.Component {
               {getFieldDecorator('note')( 
               <Input.TextArea name="note" rows={4} />)}
             </Form.Item>
-            <Form.Item>
-              {getFieldDecorator('analyzeType')( 
-              <Input name="analyzeType" placeholder={'Тип анализов'} />
-              )
-            }
-            </Form.Item>
               <Upload 
               headers={{'Authorization': "Bearer " + localStorage.authToken}}
               action={'http://localhost:3022/api/v1/result/img'}

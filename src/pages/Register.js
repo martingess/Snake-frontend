@@ -2,7 +2,6 @@ import React from 'react';
 import { Form, Input, Button, Select } from 'antd';
 import { useDispatch } from 'react-redux';
 import { softLogin } from '../modules/redLogin';
-import jwt from 'jwt-decode';
 import api from '../helpers/api';
 import notification from '../helpers/notification';
 import validators from '../helpers/validators';
@@ -25,12 +24,12 @@ function RegisterPage(p) {
         (async () => {
           const user = await api.register(formData);
           try {
-            jwt(user);
-            localStorage.setItem('authToken', user);
+            localStorage.setItem('authToken', user.data.createUser);
             dispatch(softLogin());
             notification.registrationComplete();
             return;
           } catch (err) {
+            
             notification.registrationFailed();
             return;
           }

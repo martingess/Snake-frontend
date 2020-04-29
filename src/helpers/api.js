@@ -1,263 +1,125 @@
+const graphqlRequest = async (query, variables) => {
+  try {
+    console.log(process.env.REACT_APP_BACKEND_PATH);
+    const response = await fetch(
+      `${process.env.REACT_APP_BACKEND_PATH}/graphql`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+          Authorization: 'Bearer ' + localStorage.authToken,
+        },
+        body: JSON.stringify({
+          query,
+          variables,
+        }),
+      },
+    );
+    return await response.json();
+  } catch (err) {
+    return null;
+  }
+};
+
+const query = {
+  login: `query lg($login: String!, $password: String!) {
+    login(username: $login, password: $password)
+}`,
+  getUserResults: `query FindUserResults{
+    findUserResults{
+        name,
+        analyzeType,
+        id,
+        date,
+        imgsPaths,
+        doctorName,
+        note
+    }
+}`,
+  deleteResultById: `mutation deleteResult ($id: String!) {
+    deleteResult(id: $id)
+    }`,
+  createResult: `mutation CreateResult ($name: String! $date: String, $imgsPaths: [String]!, $doctorName: String, $note: String) {
+    createResult(result: {name: $name, 
+    date: $date, 
+    doctorName: $doctorName, 
+    note: $note, 
+    imgsPaths: $imgsPaths }) {
+        name
+        date
+        doctorName
+        analyzeType
+        note
+    }
+}`,
+  updatedResult: `mutation UpdateResult($value: UpdateResult) {
+  updateResult(result: $value)
+}`,
+  register: `mutation createUser($value: CreateUser) {
+  createUser(user: $value)
+}`,
+  deleteUser: `mutation {
+  deleteUser
+}`,
+  updateUser: `mutation ($user: inputUpdateUser) {
+  updateUser(user: $user)
+}`,
+  search: `query ($query: String!){
+  search(query: $query){
+      id,
+      name,
+      imgsPaths
+  }
+}`,
+  doctorApproveResult: `mutation ApproveRes($resultId: String!){
+  approveResult(id: $resultId)
+}`,
+  doctorRejectResult: `mutation RemoveDoctor($resultId: String!){
+  removeDoctorFromResult(resultId: $resultId)
+}`,
+};
+
 const api = {
   login: async (login, password) => {
-    try {
-      const response = await fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          query: `query lg{
-                            login(username: "${login}", password: "${password}")
-                        }`,
-          variable: {},
-        }),
-      });
-      return await response.json();
-    } catch (err) {
-      return null;
-    }
+    return await graphqlRequest(query.login, { login, password });
   },
   getUserResults: async () => {
-    try {
-      const response = await fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: 'Bearer ' + localStorage.authToken,
-        },
-        body: JSON.stringify({
-          query: `query FindUserResults{
-                            findUserResults{
-                                name,
-                                analyzeType,
-                                id,
-                                date,
-                                imgsPaths,
-                                doctorName,
-                                note
-                            }
-                        }`,
-          variables: {},
-        }),
-      });
-      return await response.json();
-    } catch (err) {
-      return null;
-    }
+    return await graphqlRequest(query.getUserResults);
   },
   deleteResultById: async (id) => {
-    try {
-      fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          Authorization: 'Bearer ' + localStorage.authToken,
-        },
-        body: JSON.stringify({
-          query: `mutation deleteResult {
-                        deleteResult(id:"${id}")
-                        }`,
-          variables: {},
-        }),
-      });
-    } catch (err) {
-      return null;
-    }
+    return await graphqlRequest(query.deleteResultById, { id });
   },
-  createResult: async (values, imgPaths) => {
-    try {
-      console.log(values);
-
-      const imgsPathsJson = JSON.stringify(imgPaths);
-
-      const response = await fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/JSON',
-          Authorization: 'Bearer ' + localStorage.authToken,
-        },
-        body: JSON.stringify({
-          query: `mutation CreateResult {
-                            createResult(result: {name: "${values.name}", 
-                            date: "${values.date}", 
-                            doctorName: "${values.doctorName}", 
-                            analyzeType: "${values.analyzeType}", 
-                            note: "${values.note}", 
-                            imgsPaths: ${imgsPathsJson} }) {
-                                name
-                                date
-                                doctorName
-                                analyzeType
-                                note
-                            }
-                        }`,
-          variables: {},
-        }),
-      });
-      return await response.json();
-    } catch (err) {
-      return null;
-    }
+  createResult: async (values, imgsPaths) => {
+    return await graphqlRequest(query.createResult, {
+      ...values,
+      imgsPaths,
+    });
   },
   updateResult: async (value) => {
-    try {
-      console.log(value);
-      const response = await fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/JSON',
-          Accept: 'application/JSON',
-          Authorization: 'Bearer ' + localStorage.authToken,
-        },
-        body: JSON.stringify({
-          query: `mutation UpdateResult($value: UpdateResult) {
-                    updateResult(result: $value)
-                  }`,
-          variables: {
-            value,
-          },
-        }),
-      });
-      const updatedResult = await response.json();
-      return updatedResult;
-    } catch (err) {
-      return null;
-    }
+    return await graphqlRequest(query.updatedResult, { value });
   },
 
   register: async (value) => {
-    try {
-      const result = await fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/JSON',
-          Accept: 'application/JSON',
-        },
-        body: JSON.stringify({
-          query: `mutation createUser($value: CreateUser) {
-                                createUser(user: $value)
-                            }`,
-          variables: {
-            value,
-          },
-        }),
-      });
-      const resultJson = await result.json();
-      return resultJson && resultJson.data.createUser;
-    } catch (err) {
-      return null;
-    }
+    return await graphqlRequest(query.register, { value });
   },
 
   deleteUser: async () => {
-    try {
-      const response = await fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/JSON',
-          Accept: 'application/JSON',
-          Authorization: 'Bearer ' + localStorage.authToken,
-        },
-        body: JSON.stringify({
-          query: `mutation {
-                                deleteUser
-                            }`,
-        }),
-      });
-      const result = response.json();
-      return result;
-    } catch (err) {
-      return null;
-    }
+    graphqlRequest(query.deleteUser);
   },
-  updateUser: async (updatedUserInfo) => {
-    try {
-      const response = await fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/JSON',
-          Accept: 'application/JSON',
-          Authorization: 'Bearer ' + localStorage.authToken,
-        },
-        body: JSON.stringify({
-          query: `mutation ($user: inputUpdateUser) {
-                        updateUser(user: $user)
-                    }`,
-          variables: {
-            user: updatedUserInfo,
-          },
-        }),
-      });
-      const result = await response.json();
-      return result;
-    } catch (err) {
-        return null
-    }
+
+  updateUser: async (user) => {
+    return await graphqlRequest(query.updateUser, { user });
   },
-  search: async (query) => {
-    const response = await fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/JSON',
-          Accept: 'application/JSON',
-          Authorization: 'Bearer ' + localStorage.authToken,
-        },
-        body: JSON.stringify({
-          query: `query {
-                        search(query: "${query}"){
-                            id,
-                            name,
-                            imgsPaths
-                        }
-                    }`,
-        }),
-      });
-      const result = await response.json();
-      console.log(result)
-      return result
+  search: async (searchQuery) => {
+    return await graphqlRequest(query.search, { query: searchQuery });
   },
   doctorApproveResult: async (id) => {
-    const response = await fetch('http://localhost:3022/graphql', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/JSON',
-          Accept: 'application/JSON',
-          Authorization: 'Bearer ' + localStorage.authToken,
-        },
-        body: JSON.stringify({
-          query: `mutation ApproveRes($resultId: String!){
-            approveResult(id: $resultId)
-          }`,
-          variables: {
-            resultId: id
-          }
-        }),
-      });
-      const result = await response.json();
-      console.log(result)
+    return await graphqlRequest(query.doctorApproveResult, { id });
   },
+
   doctorRejectResult: async (id) => {
-    const response = await fetch('http://localhost:3022/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/JSON',
-        Accept: 'application/JSON',
-        Authorization: 'Bearer ' + localStorage.authToken,
-      },
-      body: JSON.stringify({
-        query: `mutation RemoveDoctor($resultId: String!){
-          removeDoctorFromResult(resultId: $resultId)
-        }`,
-        variables: {
-          resultId: id
-        }
-      }),
-    });
-    const result = await response.json();
-  }
+    return await graphqlRequest(query.doctorRejectResult, { id });
+  },
 };
 export default api;
