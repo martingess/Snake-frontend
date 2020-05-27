@@ -21,7 +21,7 @@ export default function reducer(
       return {
         ...state,
         isEditing: action.payload,
-      };
+      } 
     }
     case 'redResults.deleteResult': {
       let toDeleteArrayIndex;

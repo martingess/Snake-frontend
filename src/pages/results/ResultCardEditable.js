@@ -38,7 +38,7 @@ export default function ResultCardEditable({data = {}, handleEdit}) {
           }
           actions={[
             <Icon onClick={saveResult} type="save" key="save"/>,
-            <Icon onClick={handleEdit(id)} type="rollback" key="rollback"/>,
+            <Icon onClick={handleEdit()} type="rollback" key="rollback"/>,
           ]}>
       <Meta
         description={

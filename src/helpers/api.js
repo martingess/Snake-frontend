@@ -1,3 +1,5 @@
+import { getItemsForApprove } from "../modules/redDoctor";
+
 const graphqlRequest = async (query, variables) => {
   try {
     console.log(process.env.REACT_APP_BACKEND_PATH);
@@ -22,20 +24,35 @@ const graphqlRequest = async (query, variables) => {
   }
 };
 
+
 const query = {
   login: `query lg($login: String!, $password: String!) {
     login(username: $login, password: $password)
 }`,
   getUserResults: `query FindUserResults{
     findUserResults{
-        name,
-        analyzeType,
-        id,
-        date,
-        imgsPaths,
-        doctorName,
-        note
+      name,
+analyzeType,
+id,
+date,
+imgsPaths,
+doctorName,
+note
     }
+}`,
+  getPatientsResults: `query FindDoctorsData{
+    findDoctorResults{
+        name,
+analyzeType,
+id,
+date,
+imgsPaths,
+doctorName,
+note, 
+user {
+name
+}
+}
 }`,
   deleteResultById: `mutation deleteResult ($id: String!) {
     deleteResult(id: $id)
@@ -72,6 +89,15 @@ const query = {
       imgsPaths
   }
 }`,
+  getItemsForApprove: `query FindConfirm{
+    resultsForApprove{
+      id,
+      name,
+      user {
+        name
+      }
+    }
+  }`,
   doctorApproveResult: `mutation ApproveRes($resultId: String!){
   approveResult(id: $resultId)
 }`,
@@ -86,6 +112,12 @@ const api = {
   },
   getUserResults: async () => {
     return await graphqlRequest(query.getUserResults);
+  },
+  getItemsForApprove: async () => {
+    return await graphqlRequest(query.getItemsForApprove);
+  },
+  getPatientsResults: async () => {
+    return await graphqlRequest(query.getPatientsResults)
   },
   deleteResultById: async (id) => {
     return await graphqlRequest(query.deleteResultById, { id });
@@ -115,11 +147,15 @@ const api = {
     return await graphqlRequest(query.search, { query: searchQuery });
   },
   doctorApproveResult: async (id) => {
-    return await graphqlRequest(query.doctorApproveResult, { id });
+    return await graphqlRequest(query.doctorApproveResult, {
+      resultId: id,
+    });
   },
 
   doctorRejectResult: async (id) => {
-    return await graphqlRequest(query.doctorRejectResult, { id });
+    return await graphqlRequest(query.doctorRejectResult, {
+      resultId: id,
+    });
   },
 };
 export default api;

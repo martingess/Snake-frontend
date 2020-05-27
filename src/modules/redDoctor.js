@@ -1,59 +1,78 @@
+import api from "../helpers/api";
+
 export default function reducer(
   state = {
     forApprove: [],
+    patientsResults: [],
     status: null,
   },
   action,
 ) {
   switch (action.type) {
-    case 'redDoctor.setApprove':
+    case 'redDoctor.setPatientsResults': {
       return {
-        status: 'done',
+        ...state,
+        patientsResultsDataStatus: 'done',
+        patientsResults: action.payload,
+      };
+    }
+    case 'redDoctor.setApprove': {
+      return {
+        ...state,
+        approveDataStatus: 'done',
         forApprove: action.payload,
       };
-    case 'redDoctor.clear':
-        return {
-            status: null,
-            forApprove: []
-        }
-    case 'redDoctor.fetching':
+    }
+    case 'redDoctor.clear': {
       return {
-        status: 'fetching',
-        data: null,
+        ...state,
+        status: null,
+        forApprove: [],
       };
+    }
+    case 'redDoctor.fetchingForApprove': {
+      return {
+        ...state,
+        approveDataStatus: 'fetching',
+      };
+    }
+    case 'redDoctor.fetchingForPatientsResults': {
+      return {
+        ...state,
+        patientsResultsDataStatus: 'fetching',
+      };
+    }
     default:
       return state;
   }
 }
 
-export const clearApproveResults = () => ({type: 'redDoctor.clear'})
+
+
+//TODO: заглушка, нужно сделать так, чтобы все резалты обнулялись
+export const clearApproveResults = () => ({
+  type: 'redDoctor.clear',
+});
+
+export const getPatientsResults = (dispatch) => {
+  const fetching = () => ({ type: 'redDoctor.fetchingForPatientsResults' });
+  const setResults = (payload) => ({type: 'redDoctor.setPatientsResults', payload})
+  return async () => {
+    dispatch(fetching)
+    const results = await api.getPatientsResults()
+    dispatch(setResults(results && results.data && results.data.findDoctorResults))
+  }
+}
 
 export const getItemsForApprove = (dispatch) => {
-  const fetching = () => ({ type: 'redDoctor.fetching' });
-  const setApprove = (payload) => ({type: 'redDoctor.setApprove', payload })
+  const fetching = () => ({ type: 'redDoctor.fetchingForApprove' });
+  const setApprove = (payload) => ({
+    type: 'redDoctor.setApprove',
+    payload,
+  });
   return async () => {
     dispatch(fetching());
-    //TODO: переместить в api
-    const response = await fetch('http://localhost:3022/graphql', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: 'Bearer ' + localStorage.authToken,
-      },
-      body: JSON.stringify({
-        query: `query FindConfirm{
-            resultsForApprove{
-              id,
-              name,
-              user {
-                name
-              }
-            }
-          }`,
-      }),
-    });
-    const results = await response.json();
-    dispatch(setApprove(results.data.resultsForApprove))
+    const results = await api.getItemsForApprove()
+    dispatch(setApprove(results && results.data && results.data.resultsForApprove));
   };
 };

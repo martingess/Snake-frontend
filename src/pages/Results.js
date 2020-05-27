@@ -9,19 +9,18 @@ import {
   setResultsData,
 } from '../modules/redResults';
 
-function Results({ isLogin, resultsData, isEditing, dispatch }) {
-  console.log(resultsData);
+export function Results({ setResults, isLogin, resultsData, isEditing, dispatch, setEditing, deleteRes,  isNotOwner = false}) {
   useEffect(() => {
-    dispatch(setResultsData(dispatch));
+    setResults()
   }, [isLogin]);
   const handleEdit = (id) => (e) => {
     e.stopPropagation();
-    if (id === isEditing) return dispatch(setIsEditing({}));
-    dispatch(setIsEditing(id));
+    if (id === isEditing) return setEditing(id);
+    setEditing(id);
   };
   const handleDelete = (id) => (e) => {
     e.stopPropagation();
-    dispatch(deleteResult({ id }));
+    deleteRes(id);
   };
   return (
     <Row type="flex" justify="space-around" gutter={[16, 32]}>
@@ -48,6 +47,7 @@ function Results({ isLogin, resultsData, isEditing, dispatch }) {
               xl={8}
               xxl={6}>
               <ResultCard
+                isNotOwner={isNotOwner}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
                 dispatch={dispatch}
@@ -66,5 +66,9 @@ export default connect(
     isEditing: state.results.isEditing,
     resultsData: state.results.data,
   }),
-  (dispatch) => ({ dispatch }),
+  (dispatch) => ({ 
+    setResults: () => dispatch(setResultsData(dispatch)),
+    setEditing: (id) => dispatch(setIsEditing(id)),
+    deleteRes: (id) => dispatch(deleteResult({ id })),
+   }),
 )(Results);

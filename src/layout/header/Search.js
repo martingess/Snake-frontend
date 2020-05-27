@@ -68,7 +68,3 @@ export default function Search() {
     </div>
   );
 }
-
-//searchResult.map((result) => (
-// <div key={result.id}>{result.id}</div>
-// ))

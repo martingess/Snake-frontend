@@ -13,7 +13,7 @@ export default function ResultCard({
   handleDelete,
   isNotOwner
 }) {
-  const { id, name, date, doctorName, note } = data;
+  const { id, name, date, doctorName, note, user } = data;
   const history = useHistory();
   const mainImg = data.imgsPaths[0]
     ? process.env.REACT_APP_BACKEND_PATH + data.imgsPaths[0]
@@ -42,6 +42,7 @@ export default function ResultCard({
           <div>
             <div>{moment(date).format('MMMM Do YYYY')}</div>
             <div>Doctor: {doctorName}</div>
+            {isNotOwner && <div>Patient: {user.name}</div>}
             {note && (
               <div className={'result__card-description'}>
                 Notes: {note}
