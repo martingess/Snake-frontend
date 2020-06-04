@@ -20,7 +20,7 @@ export default function reducer(
       return {
         ...state,
         approveDataStatus: 'done',
-        forApprove: action.payload,
+        forApprove: action.payload ? action.payload : [],
       };
     }
     case 'redDoctor.clear': {

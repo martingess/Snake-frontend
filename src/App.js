@@ -17,10 +17,10 @@ import UserPage from './pages/UserPage';
 import PrivateRoute from './components/PrivateRoutes';
 import PatientsResultsPage from './pages/PatientsResultsPage';
 import ErrorPage from './pages/ErrorPage';
-
+import WelcomePage from './pages/WelcomePage';
 function App() {
   if (localStorage.getItem('authToken')) {
-    store.dispatch(softLogin());
+    store.dispatch(softLogin(localStorage.getItem('authToken')));
     setResultsData(store.dispatch)();
   }
   return (
@@ -30,11 +30,14 @@ function App() {
           <Header />
           <ErrorPage>
             <Main>
+              <Route path={'/'} exact>
+                <WelcomePage/>
+              </Route>
               <PrivateRoute anonOnly path={'/login'}>
                 <LoginPage />
               </PrivateRoute>
 
-              <PrivateRoute path={'/'} exact>
+              <PrivateRoute path={'/results'} exact>
                 <Results />
               </PrivateRoute>
 

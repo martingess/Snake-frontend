@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Icon, Input, Button, Checkbox, Spin } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Spin, Row, Col } from 'antd';
 import { connect } from 'react-redux'
 import { login } from "../modules/redLogin";
 import { Link } from "react-router-dom";
@@ -8,7 +8,7 @@ import notification from '../helpers/notification'
 function LoginForm(p) {
   const { store } = p
     if (store.login.status === 'loading') {
-      return <Spin size="large" />
+      return <Row><Col span={4} offset={10} ><Spin size="large" /></Col></Row>
     }
     const { getFieldDecorator } = p.form;
     const handleSubmit = e => {
@@ -48,13 +48,6 @@ function LoginForm(p) {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
-          <a className="login-form-forgot" href="https://google.ru">
-            Forgot password
-          </a>
           <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
             Log in
           </Button>

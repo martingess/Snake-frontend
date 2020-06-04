@@ -12,7 +12,7 @@ export default function Menu(p) {
         </MenuAnt.Item>
       ) : (
         <MenuAnt.Item>
-          <Link to={'/'}>Results</Link>
+          <Link to={'/results'}>Results</Link>
         </MenuAnt.Item>
       )}
       <MenuAnt.Item>

@@ -3,7 +3,7 @@ import api from '../helpers/api'
 
 export default function reducer(state = {
   data: null,
-  status: "anomymous"
+  status: "anonymous"
 }, action) {
   switch (action.type) {
     case ('redLogin.login'):
@@ -12,7 +12,7 @@ export default function reducer(state = {
       };
     case ('redLogin.logout'):
       return {
-        data: null, status: "anomymous"
+        data: null, status: "anonymous"
       };
     case ('redLogin.fetching'):
       return {
@@ -30,14 +30,13 @@ export const logout = () => {
   };
 }
 
-export const softLogin = () => ({
+export const softLogin = (jwtToken) => ({
   type: 'redLogin.login',
-  payload: jwt(localStorage.getItem("authToken")),
+  payload: {...jwt(jwtToken), jwt: jwtToken},
   status: 'done'
 })
 
 export function login(dispatch) {
-  console.log('Работает')
   const fetchStart = () => ({
     type: 'redLogin.fetching',
     status: 'loading'
@@ -55,7 +54,8 @@ export function login(dispatch) {
   return async (login, password, remember) => {
     dispatch(fetchStart());
     const user = await api.login(login, password)
-    if (remember && user) {
+    //TODO: добавить ремембер в этот иф
+    if ( user) {
       localStorage.setItem("authToken", user.data.login)
     }
     if (user && user.data && user.data.login) {

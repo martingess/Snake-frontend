@@ -1,16 +1,17 @@
-import { getItemsForApprove } from "../modules/redDoctor";
+import {
+  getItemsForApprove
+} from "../modules/redDoctor";
+import store from '../store';
 
 const graphqlRequest = async (query, variables) => {
   try {
-    console.log(process.env.REACT_APP_BACKEND_PATH);
     const response = await fetch(
-      `${process.env.REACT_APP_BACKEND_PATH}/graphql`,
-      {
+      `${process.env.REACT_APP_BACKEND_PATH}/graphql`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: 'Bearer ' + localStorage.authToken,
+          Authorization: 'Bearer ' + store.getState().login.data.jwt,
         },
         body: JSON.stringify({
           query,
@@ -104,11 +105,20 @@ name
   doctorRejectResult: `mutation RemoveDoctor($resultId: String!){
   removeDoctorFromResult(resultId: $resultId)
 }`,
+  checkUsername: `query checkUsername($username: String!){
+    checkUsername(username: $username)
+  }`,
+  checkEmail: `query checkEmail($email: String!){
+    checkEmail(email: $email)
+  }`
 };
 
 const api = {
   login: async (login, password) => {
-    return await graphqlRequest(query.login, { login, password });
+    return await graphqlRequest(query.login, {
+      login,
+      password
+    });
   },
   getUserResults: async () => {
     return await graphqlRequest(query.getUserResults);
@@ -120,7 +130,9 @@ const api = {
     return await graphqlRequest(query.getPatientsResults)
   },
   deleteResultById: async (id) => {
-    return await graphqlRequest(query.deleteResultById, { id });
+    return await graphqlRequest(query.deleteResultById, {
+      id
+    });
   },
   createResult: async (values, imgsPaths) => {
     return await graphqlRequest(query.createResult, {
@@ -129,11 +141,15 @@ const api = {
     });
   },
   updateResult: async (value) => {
-    return await graphqlRequest(query.updatedResult, { value });
+    return await graphqlRequest(query.updatedResult, {
+      value
+    });
   },
 
   register: async (value) => {
-    return await graphqlRequest(query.register, { value });
+    return await graphqlRequest(query.register, {
+      value
+    });
   },
 
   deleteUser: async () => {
@@ -141,10 +157,14 @@ const api = {
   },
 
   updateUser: async (user) => {
-    return await graphqlRequest(query.updateUser, { user });
+    return await graphqlRequest(query.updateUser, {
+      user
+    });
   },
   search: async (searchQuery) => {
-    return await graphqlRequest(query.search, { query: searchQuery });
+    return await graphqlRequest(query.search, {
+      query: searchQuery
+    });
   },
   doctorApproveResult: async (id) => {
     return await graphqlRequest(query.doctorApproveResult, {
@@ -157,5 +177,16 @@ const api = {
       resultId: id,
     });
   },
+
+  checkUsername: async (username) => {
+    return await graphqlRequest(query.checkUsername, {
+      username
+    })
+  },
+  checkEmail: async (email) => {
+    return await graphqlRequest(query.checkEmail, {
+      email
+    })
+  }
 };
 export default api;

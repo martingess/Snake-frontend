@@ -1,28 +1,38 @@
-import {notification } from 'antd';
+import {
+    notification
+} from 'antd';
+
+const noteConfig = {
+    placement: 'topLeft',
+    duration: 2
+}
 
 const notificationList = {
+    wrongPassword: () => {
+        notification['error']({
+            message: 'Wrong password',
+            ...noteConfig
+        })
+    },
     loginSuccess: () => {
         notification['success']({
             message: 'Logged in',
             description: 'You are successfuly logged in',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
         })
     },
     loginFailed: () => {
         notification['error']({
             message: 'Login failed',
             description: 'Login or password are incorrect',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
 
         })
     },
-    logout: ()=>{
+    logout: () => {
         notification['info']({
             message: "You are now logged out",
-            duration: 2,
-            placement: 'topLeft'
+            ...noteConfig
         })
     },
 
@@ -30,74 +40,71 @@ const notificationList = {
         notification['success']({
             message: 'Result created',
             description: 'Result has been created successfuly',
-            placement: 'topLeft',
-            duration: 2
-
+            ...noteConfig
         })
     },
     resultAddingFailed: () => {
         notification['error']({
             message: 'Result creation failed',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
         })
     },
-    registrationComplete: ()=>{
+    registrationComplete: () => {
         notification['success']({
             message: 'Registration complete',
             description: 'You are now logged in',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
         })
     },
-    registrationFailed: ()=>{
+    registrationFailed: (errorText) => {
+        const message = ~errorText.search(/login/g) ? 'Login already in use' : ~errorText.search(/email/g) ?
+            'Email already in use' : null
         notification['error']({
             message: 'Registration failed',
-            description: 'Something went wrong, maby check fields again?',
-            placement: 'topLeft',
-            duration: 2
+            description: message,
+            ...noteConfig
         })
     },
-    unauthorized: ()=>{
+    unauthorized: () => {
         notification['warning']({
             message: 'You need to log in first',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
         });
     },
     alreadyAuhtorized: () => {
         notification['error']({
             message: 'You are already logged in',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
         })
     },
     passwordIncorrect: () => {
         notification['error']({
             message: 'Password confirmation failed',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
         })
     },
     fieldsValidationFailed: () => {
         notification['error']({
             message: 'Validation failed, please, check fields one more time',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
         })
     },
     userUpdated: () => {
         notification['success']({
             message: 'User info successuly updated',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
         })
     },
     passwordUpdated: () => {
         notification['success']({
             message: 'Password successuly updated, now you need to log in again',
-            placement: 'topLeft',
-            duration: 2
+            ...noteConfig
+        })
+    },
+    resultDeleted: () => {
+        notification['success']({
+            message: 'Note has been deleted',
+            ...noteConfig
         })
     }
 }

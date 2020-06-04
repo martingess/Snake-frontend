@@ -7,25 +7,22 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import jwt from 'jwt-decode';
 import ApproveMenu from './header/ApproveMenu';
+import logo from '../imgs/logo.svg'
 const { Header: AntHeader } = Layout;
 
 //TODO: имплементировать style={{position: 'fixed', width: '100vw', zIndex: 1, margin: "10px"}}
 export default function Header() {
-  const isLoggedIn = useSelector(
-    (state) => state.login.status === 'done',
-  );
-
-  const isDoctor = useSelector(
-    (state) => state.login.status === 'done',
-  )
-    ? jwt(localStorage.authToken).role === 'doctor'
-    : false;
+  const loginState = useSelector(state=>state.login);
+  const isLoggedIn = loginState.status === 'done';
+  const isDoctor = loginState.data && loginState.data.role === 'doctor';
 
   return (
     <AntHeader className={'header'}>
       <Row type={'flex'} align={'middle'}>
         <Col span={2} offset={1}>
-          <div>logo</div>
+          <div><a href='/'><img src={logo} alt="logo"
+          style = {{maxHeight: "55px", maxWidth: "55px"}}
+          /></a></div>
         </Col>
         <Col span={4} offset={1}>
           <Menu isDoctor={isDoctor} />

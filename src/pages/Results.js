@@ -24,12 +24,13 @@ export function Results({ setResults, isLogin, resultsData, isEditing, dispatch,
   };
   return (
     <Row type="flex" justify="space-around" gutter={[16, 32]}>
-      {resultsData &&
+      {resultsData ?
         resultsData.map((dataItem) => {
           if (isEditing === dataItem.id) {
             return (
               <Col key={dataItem.id} span={4}>
                 <ResultCardEditable
+                  card
                   handleEdit={handleEdit}
                   isEditing={isEditing}
                   dispatch={dispatch}
@@ -55,7 +56,7 @@ export function Results({ setResults, isLogin, resultsData, isEditing, dispatch,
               />
             </Col>
           );
-        })}
+        }) : <div>Результатов пока нет</div>}
     </Row>
   );
 }
