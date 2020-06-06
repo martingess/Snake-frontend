@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import UserCard from "./user/UserCard";
 import { useHistory } from "react-router-dom";
 
-function User({ state, dispatch }) {
+function User({ state, dispatch, className }) {
   const history = useHistory();
   const isLogedIn = state.login.status === 'done'
   const onClickPath = isLogedIn ? '/user' : '/login'
@@ -19,7 +19,7 @@ function User({ state, dispatch }) {
     setVisible(visible);
   }
   return ( history.location.pathname === '/login' ?
-  <Icon className={'header__user-icon'} type="user" onClick={handleOnClick}/>
+  <Icon className={className} type="user" onClick={handleOnClick}/>
   :
     <Popover placement={"bottomRight"} content={
       (isLogedIn

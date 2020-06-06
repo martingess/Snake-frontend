@@ -1,27 +1,21 @@
 /* eslint-disable no-undef */
 import React, { useState } from 'react';
-import { Input, Popover, List, Avatar } from 'antd';
-import api from '../../helpers/api';
+import { Input, Popover, List, Avatar, Button } from 'antd';
 import './Search.css';
 import { Link } from 'react-router-dom';
-export default function Search() {
+
+export default function Search({searchDoctor = false, handleAddDoctor, handleSearch, placeholder}) {
   const [searchResults, setSearchResult] = useState([]);
   const [isVisible, setIsVisible] = useState(false);
-  const handleSearch = async (value) => {
-    const searchResultFetch = await api.search(value);
-    if (searchResultFetch.data.search) {
-      setSearchResult(searchResultFetch.data.search);
-    } else setSearchResult([]);
-    setIsVisible(true);
-  };
+
   const visibleChange = (visible) => {
     setIsVisible(visible);
   };
   return (
     <div className="header__search">
       <Input.Search
-        onSearch={handleSearch}
-        placeholder={'Название результата'}
+        onSearch={handleSearch(setSearchResult, setIsVisible)}
+        placeholder={placeholder}
       />
       <div className="header__search-results">
         {
@@ -36,7 +30,8 @@ export default function Search() {
                   itemLayout="horizontal"
                   renderItem={(item) => {
                     return (
-                      <List.Item>
+
+                     !searchDoctor ? <List.Item>
                         <List.Item.Meta
                           title={
                             <Link
@@ -56,7 +51,8 @@ export default function Search() {
                             />
                           }
                         />
-                      </List.Item>
+                      </List.Item> :
+                      <List.Item>{item.name} <Button onClick={handleAddDoctor(item.id)}>Добавить</Button></List.Item>
                     );
                   }}
                 />

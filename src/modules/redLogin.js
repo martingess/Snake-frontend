@@ -1,5 +1,6 @@
 import jwt from 'jwt-decode'
 import api from '../helpers/api'
+import { useHistory } from 'react-router-dom';
 
 export default function reducer(state = {
   data: null,
@@ -24,7 +25,7 @@ export default function reducer(state = {
 }
 
 export const logout = () => {
-  localStorage.removeItem('authToken', '')
+  localStorage.removeItem('authToken', '');
   return {
     type: 'redLogin.logout'
   };
@@ -53,9 +54,10 @@ export function login(dispatch) {
 
   return async (login, password, remember) => {
     dispatch(fetchStart());
+    
     const user = await api.login(login, password)
     //TODO: добавить ремембер в этот иф
-    if ( user) {
+    if (user && remember) {
       localStorage.setItem("authToken", user.data.login)
     }
     if (user && user.data && user.data.login) {

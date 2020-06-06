@@ -1,12 +1,12 @@
 /* eslint-disable no-undef */
 import React, { useState } from "react";
-import { Card, Icon, Input, DatePicker, Button } from "antd";
+import { Card, Icon, Input, DatePicker, Button, List } from "antd";
 import moment from "moment";
-import api from "../../helpers/api";
+import api from "../helpers/api";
 import { useDispatch } from "react-redux";
-import { setResultsData, setIsEditing } from "../../modules/redResults";
-import imgPlaceholder from "../../imgs/image-placeholder.jpg";
-import getMomentObj from "../../helpers/getMomentObj";
+import { setResultsData, setIsEditing as reduxSetIsEditing } from "../modules/redResults";
+import imgPlaceholder from "../imgs/image-placeholder.jpg";
+import getMomentObj from "../helpers/getMomentObj";
 
 const { TextArea } = Input;
 const { Meta } = Card;
@@ -34,7 +34,7 @@ export default function ResultCardEditable({ data = {}, handleEdit, setIsEditing
     });
     setResultsData(dispatch)();
     if(card) {
-      dispatch(setIsEditing({}));
+      dispatch(reduxSetIsEditing());
     } else {
       setIsEditing(false);
     }
@@ -71,7 +71,7 @@ export default function ResultCardEditable({ data = {}, handleEdit, setIsEditing
   if (card) {
     return (
       <Card
-        style={{ width: 300 }}
+        style={{ maxWidth: 300 }}
         cover={<img alt="example" src={mainImg} />}
         actions={[
           <Icon onClick={saveResult} type="save" key="save" />,

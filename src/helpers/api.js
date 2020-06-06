@@ -5,13 +5,15 @@ import store from '../store';
 
 const graphqlRequest = async (query, variables) => {
   try {
+    const state = store.getState()
+    const bearer = (state.login.data && state.login.data.jwt) || undefined
     const response = await fetch(
       `${process.env.REACT_APP_BACKEND_PATH}/graphql`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
-          Authorization: 'Bearer ' + store.getState().login.data.jwt,
+          Authorization: 'Bearer ' + bearer,
         },
         body: JSON.stringify({
           query,
@@ -19,17 +21,27 @@ const graphqlRequest = async (query, variables) => {
         }),
       },
     );
+    console.log('добрались')
     return await response.json();
   } catch (err) {
-    return null;
+    console.log(err);
+    return err;
   }
 };
 
 
 const query = {
+
   login: `query lg($login: String!, $password: String!) {
     login(username: $login, password: $password)
 }`,
+  searchDoctors: `query sd ($query: String!){
+  searchDoctors(query: $query){
+    id,
+    name,
+    role
+    }
+  }`,
   getUserResults: `query FindUserResults{
     findUserResults{
       name,
@@ -38,7 +50,15 @@ id,
 date,
 imgsPaths,
 doctorName,
-note
+note,
+doctors {
+  name, 
+  id
+},
+notConfirmedDoctors{
+  name, 
+  id
+}
     }
 }`,
   getPatientsResults: `query FindDoctorsData{
@@ -105,6 +125,9 @@ name
   doctorRejectResult: `mutation RemoveDoctor($resultId: String!){
   removeDoctorFromResult(resultId: $resultId)
 }`,
+  removeDoctorFromResult: `mutation deleteDoctorFromResult($resultId: String!, $doctorId: String){
+    removeDoctorFromResult(resultId: $resultId, doctorId: $doctorId)
+  }`,
   checkUsername: `query checkUsername($username: String!){
     checkUsername(username: $username)
   }`,
@@ -114,6 +137,12 @@ name
 };
 
 const api = {
+  removeDoctorFromResult: async (resultId, doctorId) => {
+    return await graphqlRequest(query.removeDoctorFromResult, {
+      resultId,
+      doctorId
+    })
+  },
   login: async (login, password) => {
     return await graphqlRequest(query.login, {
       login,
@@ -165,6 +194,12 @@ const api = {
     return await graphqlRequest(query.search, {
       query: searchQuery
     });
+  },
+  searchDoctors: async (name) => {
+    return await graphqlRequest(query.searchDoctors, {
+      query: name
+    });
+    
   },
   doctorApproveResult: async (id) => {
     return await graphqlRequest(query.doctorApproveResult, {

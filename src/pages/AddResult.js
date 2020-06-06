@@ -41,7 +41,7 @@ class AddResult extends React.Component {
 
     return (
       <Row type={"flex"} justify={"center"}>
-        <Col span={8}>
+        <Col xs={24} md={12} lg={8}>
           {this.state.fetching ? (
             <Spin size="large" />
           ) : (

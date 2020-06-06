@@ -26,7 +26,7 @@ export default function ResultCard({
     <Card
       style={{
         margin: "0 auto",
-        width: "300px",
+        maxWidth: "300px",
       }}
       className={"result__card"}
       hoverable

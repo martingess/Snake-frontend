@@ -42,6 +42,12 @@ export default function reducer(
         patientsResultsDataStatus: 'fetching',
       };
     }
+    case ('redLogin.logout'):
+      return {
+          forApprove: [],
+          patientsResults: [],
+          status: null,
+      };
     default:
       return state;
   }
@@ -55,8 +61,13 @@ export const clearApproveResults = () => ({
 });
 
 export const getPatientsResults = (dispatch) => {
-  const fetching = () => ({ type: 'redDoctor.fetchingForPatientsResults' });
-  const setResults = (payload) => ({type: 'redDoctor.setPatientsResults', payload})
+  const fetching = () => ({
+    type: 'redDoctor.fetchingForPatientsResults'
+  });
+  const setResults = (payload) => ({
+    type: 'redDoctor.setPatientsResults',
+    payload
+  })
   return async () => {
     dispatch(fetching)
     const results = await api.getPatientsResults()
@@ -65,7 +76,9 @@ export const getPatientsResults = (dispatch) => {
 }
 
 export const getItemsForApprove = (dispatch) => {
-  const fetching = () => ({ type: 'redDoctor.fetchingForApprove' });
+  const fetching = () => ({
+    type: 'redDoctor.fetchingForApprove'
+  });
   const setApprove = (payload) => ({
     type: 'redDoctor.setApprove',
     payload,

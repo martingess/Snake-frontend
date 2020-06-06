@@ -18,6 +18,7 @@ export default function UserCard (p) {
           actions={[
             <Icon onClick={() => {history.push('/user')}} type="setting" key="setting"/>,
             <Icon onClick={() => {
+              history.push('/')
               dispatch(logout())
               dispatch(clearApproveResults())
               dispatch(clearResults());

@@ -28,30 +28,34 @@ function LoginForm(p) {
       <Form onSubmit={handleSubmit} className="login-form">
         <Form.Item>
           {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
+            rules: [{ required: true, message: 'Пожалуйста, введите свой логин.' }],
           })(
             <Input
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
+              placeholder="Логин"
             />,
           )}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
+            rules: [{ required: true, message: 'Пожалуйста, введите свой пароль.' }],
           })(
             <Input
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Password"
+              placeholder="Пароль"
             />,
           )}
         </Form.Item>
-        <Form.Item>
+        <Form.Item> 
+          {getFieldDecorator('remember', {
+            valuePropName: 'checked',
+            initialValue: true,
+          })(<Checkbox>Запомнить меня</Checkbox>)}
           <Button type="primary" htmlType="submit" style={{ width: '100%' }}>
-            Log in
+            Войти
           </Button>
-          Or <Link to="/register">register now!</Link>
+          или <Link to="/register">зарегестрироваться сейчас</Link>
         </Form.Item>
       </Form>
     )

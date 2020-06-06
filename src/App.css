@@ -1,6 +1,9 @@
 .App {
 }
-
+button {
+    display: block;
+    margin: 10px;
+   }
 .header{
     background-color: white;
 }

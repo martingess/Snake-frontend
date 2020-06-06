@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import 'antd/dist/antd.css';
 import './App.css';
 import Header from './layout/Header';
@@ -7,7 +7,7 @@ import Main from './layout/Main';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import AddResult from './pages/AddResult';
 import store from './store';
-import { Provider } from 'react-redux';
+import { Provider, connect } from 'react-redux';
 import { softLogin } from './modules/redLogin';
 import Result from './pages/Result';
 import RegisterPage from './pages/Register';
@@ -18,6 +18,8 @@ import PrivateRoute from './components/PrivateRoutes';
 import PatientsResultsPage from './pages/PatientsResultsPage';
 import ErrorPage from './pages/ErrorPage';
 import WelcomePage from './pages/WelcomePage';
+import { getPatientsResults } from './modules/redDoctor';
+
 function App() {
   if (localStorage.getItem('authToken')) {
     store.dispatch(softLogin(localStorage.getItem('authToken')));
@@ -72,5 +74,4 @@ function App() {
     </div>
   );
 }
-
 export default App;

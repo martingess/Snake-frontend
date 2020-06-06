@@ -1,0 +1,18 @@
+@media screen and (max-width: 768px){
+  .Header__logo {
+    order: 0;
+  }
+  .Header__user {
+    order: 1;
+  }
+  .Header_menu {
+    order: 2;
+  }
+  .Header__button {
+    order: 4;
+  }
+  .Header__search{
+    order: 3
+  }
+}
+

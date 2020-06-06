@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Row, Col } from 'antd';
 import ResultCard from './results/ResultCard';
-import ResultCardEditable from './results/ResultCardEditable';
+import ResultCardEditable from '../components/ResultCardEditable';
 import { connect } from 'react-redux';
 import {
   deleteResult,
@@ -12,7 +12,7 @@ import {
 export function Results({ setResults, isLogin, resultsData, isEditing, dispatch, setEditing, deleteRes,  isNotOwner = false}) {
   useEffect(() => {
     setResults()
-  }, [isLogin]);
+  }, [isLogin, setResults]);
   const handleEdit = (id) => (e) => {
     e.stopPropagation();
     if (id === isEditing) return setEditing(id);
@@ -24,11 +24,16 @@ export function Results({ setResults, isLogin, resultsData, isEditing, dispatch,
   };
   return (
     <Row type="flex" justify="space-around" gutter={[16, 32]}>
-      {resultsData ?
+      {resultsData && resultsData[0] ?
         resultsData.map((dataItem) => {
           if (isEditing === dataItem.id) {
             return (
-              <Col key={dataItem.id} span={4}>
+              <Col key={dataItem.id} 
+              xs={24}
+              md={12}
+              lg={10}
+              xl={8}
+              xxl={6}>}>
                 <ResultCardEditable
                   card
                   handleEdit={handleEdit}
@@ -56,7 +61,7 @@ export function Results({ setResults, isLogin, resultsData, isEditing, dispatch,
               />
             </Col>
           );
-        }) : <div>Результатов пока нет</div>}
+        }) : <h2 style={{marginTop: '50px'}}>Результатов пока нет</h2>}
     </Row>
   );
 }
